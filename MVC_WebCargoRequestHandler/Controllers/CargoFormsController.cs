@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using MVC_WebCargoRequestHandler.Models;
 
 namespace MVC_WebCargoRequestHandler.Controllers
@@ -18,7 +19,13 @@ namespace MVC_WebCargoRequestHandler.Controllers
         public ActionResult Index()
         {
             var cargoForms = db.CargoForms.Include(c => c.CommunicationMethod).Include(c => c.Direction).Include(c => c.Residency).Include(c => c.RollingStockType).Include(c => c.TrafficClassification);
+            if (User.Identity.IsAuthenticated)
+            {
+                string currentUserId = User.Identity.GetUserId();
+                ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+            }
             return View(cargoForms.ToList());
+
         }
 
         // GET: CargoForms/Details/5
