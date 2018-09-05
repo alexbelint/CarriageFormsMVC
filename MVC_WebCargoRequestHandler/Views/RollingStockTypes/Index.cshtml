@@ -1,0 +1,30 @@
+﻿@model IEnumerable<MVC_WebCargoRequestHandler.Models.RollingStockType>
+
+@{
+    ViewBag.Title = "Типы подвижного состава";
+}
+<br />
+<p>
+    @Html.ActionLink("Добавить тип подвижного состава", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RollingStockName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RollingStockName)
+        </td>
+        <td>
+            @Html.ActionLink("Правка", "Edit", new { id=item.RollingStockID }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.RollingStockID })
+        </td>
+    </tr>
+}
+
+</table>

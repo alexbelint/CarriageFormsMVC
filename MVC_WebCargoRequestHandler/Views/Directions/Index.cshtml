@@ -1,0 +1,30 @@
+﻿@model IEnumerable<MVC_WebCargoRequestHandler.Models.Direction>
+
+@{
+    ViewBag.Title = "Направления";
+}
+<br />
+<p>
+    @Html.ActionLink("Добавить новое направление", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DirectionName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DirectionName)
+        </td>
+        <td>
+            @Html.ActionLink("Правка", "Edit", new { id=item.DirectionID }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.DirectionID })
+        </td>
+    </tr>
+}
+
+</table>

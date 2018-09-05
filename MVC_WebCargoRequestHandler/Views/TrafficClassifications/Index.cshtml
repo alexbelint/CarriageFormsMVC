@@ -1,0 +1,31 @@
+﻿@model IEnumerable<MVC_WebCargoRequestHandler.Models.TrafficClassification>
+
+@{
+    ViewBag.Title = "Виды сообщения";
+}
+<br />
+
+<p>
+    @Html.ActionLink("Добавить новую запись", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TrafficClassificationName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TrafficClassificationName)
+        </td>
+        <td>
+            @Html.ActionLink("Правка", "Edit", new { id=item.TrafficClassificationID }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.TrafficClassificationID })
+        </td>
+    </tr>
+}
+
+</table>

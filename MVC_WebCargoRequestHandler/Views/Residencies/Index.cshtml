@@ -1,0 +1,31 @@
+﻿@model IEnumerable<MVC_WebCargoRequestHandler.Models.Residency>
+
+@{
+    ViewBag.Title = "Резиденство";
+}
+<br>
+
+<p>
+    @Html.ActionLink("Добавить запись", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ResidencyName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResidencyName)
+        </td>
+        <td>
+            @Html.ActionLink("Правка", "Edit", new { id=item.ResidencyID }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.ResidencyID })
+        </td>
+    </tr>
+}
+
+</table>

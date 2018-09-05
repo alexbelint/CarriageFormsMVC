@@ -1,0 +1,122 @@
+﻿@model MVC_WebCargoRequestHandler.Models.CargoForm
+
+@{
+    ViewBag.Title = "Подробности";
+}
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiptDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReceiptDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CommunicationMethod.CommunicationName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CommunicationMethod.CommunicationName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CargoDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CargoDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CargoCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CargoCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Departure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Departure)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Destination)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Destination)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Direction.DirectionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Direction.DirectionName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RollingStockType.RollingStockName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RollingStockType.RollingStockName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TrafficClassification.TrafficClassificationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrafficClassification.TrafficClassificationName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ResponseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResponseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Feedback)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Feedback)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Residency.ResidencyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Residency.ResidencyName)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Правка", "Edit", new { id = Model.CargoFormID }) |
+    @Html.ActionLink("Назад к списку", "Index")
+</p>
