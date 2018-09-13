@@ -61,7 +61,12 @@ namespace MVC_WebCargoRequestHandler.Models
         public int ResidencyID { get; set; }
         public virtual Residency Residency { get; set; }//Рез/нерез
 
-        [Display(Name = "Кто вводил данные")]
-        public string currentUserId { get; set; }
+        [Display(Name = "Редактор")]
+        public string СurrentUserId { get; set; }
+
+        [Display(Name = "Автор")]
+        public string Author { get; set; }
+
     }
+
 }

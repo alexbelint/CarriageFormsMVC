@@ -27,7 +27,9 @@ namespace MVC_WebCargoRequestHandler.Migrations
                         TrafficClassificationID = c.Int(nullable: false),
                         DirectionID = c.Int(nullable: false),
                         ResidencyID = c.Int(nullable: false),
-                    })
+                        CurrentUserID = c.Int(nullable: false),
+                        Author = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => t.CargoFormID)
                 .ForeignKey("dbo.CommunicationMethods", t => t.CommunicationID, cascadeDelete: true)
                 .ForeignKey("dbo.Directions", t => t.DirectionID, cascadeDelete: true)

@@ -213,9 +213,13 @@
     <Compile Include="Migrations\201809041035407_ReceiptDateAdd.Designer.cs">
       <DependentUpon>201809041035407_ReceiptDateAdd.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809051308237_currentUser.cs" />
-    <Compile Include="Migrations\201809051308237_currentUser.Designer.cs">
-      <DependentUpon>201809051308237_currentUser.cs</DependentUpon>
+    <Compile Include="Migrations\201809121108030_curUser.cs" />
+    <Compile Include="Migrations\201809121108030_curUser.Designer.cs">
+      <DependentUpon>201809121108030_curUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809131027531_addAuthor.cs" />
+    <Compile Include="Migrations\201809131027531_addAuthor.Designer.cs">
+      <DependentUpon>201809131027531_addAuthor.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -335,8 +339,11 @@
     <EmbeddedResource Include="Migrations\201809041035407_ReceiptDateAdd.resx">
       <DependentUpon>201809041035407_ReceiptDateAdd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809051308237_currentUser.resx">
-      <DependentUpon>201809051308237_currentUser.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809121108030_curUser.resx">
+      <DependentUpon>201809121108030_curUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809131027531_addAuthor.resx">
+      <DependentUpon>201809131027531_addAuthor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -19,7 +19,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         public ActionResult Index()
         {
             var cargoForms = db.CargoForms.Include(c => c.CommunicationMethod).Include(c => c.Direction).Include(c => c.Residency).Include(c => c.RollingStockType).Include(c => c.TrafficClassification);
-     
+
             return View(cargoForms.ToList());
 
         }
@@ -56,13 +56,21 @@ namespace MVC_WebCargoRequestHandler.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID")] CargoForm cargoForm)
+        public ActionResult Create([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,Author")] CargoForm cargoForm)
         {
             
 
             if (ModelState.IsValid)
             {
                 db.CargoForms.Add(cargoForm);
+                if (User.Identity.IsAuthenticated) //gather info about author
+                {
+                    string currentUserId = User.Identity.GetUserId();
+                    ApplicationUser applicationUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+                    string author = applicationUser.UserName;
+                    cargoForm.Author = author;
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -79,6 +87,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         [Authorize]
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -100,11 +109,18 @@ namespace MVC_WebCargoRequestHandler.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID")] CargoForm cargoForm)
+        public ActionResult Edit([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,СurrentUserId")] CargoForm cargoForm)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(cargoForm).State = EntityState.Modified;
+                if (User.Identity.IsAuthenticated) //gather info about current user
+                {
+                    string currentUserId = User.Identity.GetUserId();
+                    ApplicationUser applicationUser = db.Users.FirstOrDefault(x => x.Id == currentUserId); 
+                    string currentUser = applicationUser.UserName;
+                    cargoForm.СurrentUserId = currentUser;
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -114,12 +130,8 @@ namespace MVC_WebCargoRequestHandler.Controllers
             ViewBag.RollingStockID = new SelectList(db.RollingStockTypes, "RollingStockID", "RollingStockName", cargoForm.RollingStockID);
             ViewBag.TrafficClassificationID = new SelectList(db.TrafficClassifications, "TrafficClassificationID", "TrafficClassificationName", cargoForm.TrafficClassificationID);
 
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    string currentUserId = User.Identity.GetUserId();
-            //    ApplicationUser applicationUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
-            //    string currentUser = applicationUser.UserName;
-            //}
+          
+
             return View(cargoForm);
         }
 
