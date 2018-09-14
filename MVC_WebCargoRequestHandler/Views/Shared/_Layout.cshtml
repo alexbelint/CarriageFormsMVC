@@ -22,17 +22,38 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Главная", "Index", "CargoForms")</li>
-                    <li>@Html.ActionLink("Способ связи", "Index", "CommunicationMethods")</li>
-                    <li>@Html.ActionLink("Направление", "Index", "Directions")</li>
-                    <li>@Html.ActionLink("Резиденство", "Index", "Residencies")</li>
-                    <li>@Html.ActionLink("ПС", "Index", "RollingStockTypes")</li>
-                    <li>@Html.ActionLink("Вид сообщения", "Index", "TrafficClassifications")</li>
+                    <li class="nav-item dropdown"> 
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Меню <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a>@Html.ActionLink("Способ связи", "Index", "CommunicationMethods")</a></li>
+                            <li><a>@Html.ActionLink("Направление", "Index", "Directions")</a></li>
+                            <li><a>@Html.ActionLink("Резиденство", "Index", "Residencies")</a></li>
+                            <li><a>@Html.ActionLink("Подвижной состав", "Index", "RollingStockTypes")</a></li>
+                            <li><a>@Html.ActionLink("Вид сообщения", "Index", "TrafficClassifications")</a></li>
+                            @*<li role="separator" class="divider"></li>
+                            <li><a>@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</a></li>*@
+                        </ul>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
+
         </div>
     </div>
     <div class="container body-content">
+        @*<div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Редактирование <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>@Html.ActionLink("Способ связи", "Index", "CommunicationMethods")</li>
+                <li>@Html.ActionLink("Направление", "Index", "Directions")</li>
+                <li>@Html.ActionLink("Резиденство", "Index", "Residencies")</li>
+                <li>@Html.ActionLink("ПС", "Index", "RollingStockTypes")</li>
+                <li>@Html.ActionLink("Вид сообщения", "Index", "TrafficClassifications")</li>
+            </ul>
+        </div>*@
         @RenderBody()
         <hr />
         <footer>
