@@ -56,7 +56,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,Author")] CargoForm cargoForm)
+        public ActionResult Create([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,Author,СurrentUserId")] CargoForm cargoForm)
         {
             
 
@@ -109,17 +109,22 @@ namespace MVC_WebCargoRequestHandler.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,СurrentUserId")] CargoForm cargoForm)
+        public ActionResult Edit(int? id,[Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,СurrentUserId,Author")] CargoForm cargoForm)
         {
+            CargoForm cargoForms = db.CargoForms.Find(id);
+            if (cargoForms == null)
+            {
+                return HttpNotFound();
+            }
             if (ModelState.IsValid)
             {
-                db.Entry(cargoForm).State = EntityState.Modified;
+                db.Entry(cargoForms).State = EntityState.Modified;
                 if (User.Identity.IsAuthenticated) //gather info about current user
                 {
                     string currentUserId = User.Identity.GetUserId();
                     ApplicationUser applicationUser = db.Users.FirstOrDefault(x => x.Id == currentUserId); 
                     string currentUser = applicationUser.UserName;
-                    cargoForm.СurrentUserId = currentUser;
+                    cargoForms.СurrentUserId = currentUser;
                 }
                 db.SaveChanges();
                 return RedirectToAction("Index");
