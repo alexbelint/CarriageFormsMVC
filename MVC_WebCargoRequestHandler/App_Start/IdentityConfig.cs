@@ -15,6 +15,7 @@ using MVC_WebCargoRequestHandler.Models;
 namespace MVC_WebCargoRequestHandler
 {
     public class EmailService : IIdentityMessageService
+       
     {
         public Task SendAsync(IdentityMessage message)
         {
@@ -47,14 +48,15 @@ namespace MVC_WebCargoRequestHandler
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = true
+                RequireUniqueEmail = true,
+
             };
 
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
+                RequireNonLetterOrDigit = false,
                 RequireDigit = true,
                 RequireLowercase = true,
                 RequireUppercase = true,
@@ -106,4 +108,6 @@ namespace MVC_WebCargoRequestHandler
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
     }
+
+
 }

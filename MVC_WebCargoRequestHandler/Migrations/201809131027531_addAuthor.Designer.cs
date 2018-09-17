@@ -7,13 +7,13 @@ namespace MVC_WebCargoRequestHandler.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class currentUser : IMigrationMetadata
+    public sealed partial class addAuthor : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(currentUser));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addAuthor));
         
         string IMigrationMetadata.Id
         {
-            get { return "201809051308237_currentUser"; }
+            get { return "201809131027531_addAuthor"; }
         }
         
         string IMigrationMetadata.Source

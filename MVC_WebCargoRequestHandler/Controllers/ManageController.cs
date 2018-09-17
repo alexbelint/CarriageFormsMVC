@@ -55,12 +55,12 @@ namespace MVC_WebCargoRequestHandler.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль был изменен." //"Your password has been changed."
+                : message == ManageMessageId.SetPasswordSuccess ? "Ваш пароль был установлен." //"Your password has been set."
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Ваш провайдер для двухфакторной аутенфикации был установлен." //"Your two-factor authentication provider has been set."
+                : message == ManageMessageId.Error ? "Произошла ошибка." //"An error has occurred."
+                : message == ManageMessageId.AddPhoneSuccess ? "Ваш телефон был добавлен." //"Your phone number was added."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона был удален." //"Your phone number was removed."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -123,7 +123,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Your security code is: " + code
+                    Body = "Ваш код безопасности: " + code // "Your security code is: "
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
@@ -190,7 +190,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "Failed to verify phone");
+            ModelState.AddModelError("", "Неудачная попытка верификации телефона"); //"Failed to verify phone"
             return View(model);
         }
 
@@ -281,8 +281,8 @@ namespace MVC_WebCargoRequestHandler.Controllers
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.RemoveLoginSuccess ? "Внешняя учетная запись была удалена." // "The external login was removed."
+                : message == ManageMessageId.Error ? "Произошла ошибка." // "An error has occurred."
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)

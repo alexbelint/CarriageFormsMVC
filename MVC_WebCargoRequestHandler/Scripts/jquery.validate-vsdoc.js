@@ -315,23 +315,23 @@ $.extend($.validator, {
 	},
 
 	messages: {
-		required: "This field is required.",
-		remote: "Please fix this field.",
-		email: "Please enter a valid email address.",
-		url: "Please enter a valid URL.",
-		date: "Please enter a valid date.",
-		dateISO: "Please enter a valid date (ISO).",
-		number: "Please enter a valid number.",
-		digits: "Please enter only digits.",
-		creditcard: "Please enter a valid credit card number.",
-		equalTo: "Please enter the same value again.",
-		accept: "Please enter a value with a valid extension.",
-		maxlength: $.validator.format("Please enter no more than {0} characters."),
-		minlength: $.validator.format("Please enter at least {0} characters."),
-		rangelength: $.validator.format("Please enter a value between {0} and {1} characters long."),
-		range: $.validator.format("Please enter a value between {0} and {1}."),
-		max: $.validator.format("Please enter a value less than or equal to {0}."),
-		min: $.validator.format("Please enter a value greater than or equal to {0}.")
+        required: "Это поле обязательно.", //"This field is required."
+        remote: "Пожалуйста, исправьте это поле.", //"Please fix this field."
+        email: "Пожалуйста, введите допустимый адрес почты.", //"Please enter a valid email address."
+        url: "Пожалуйста, введи допустимый адрес URL.", //"Please enter a valid URL."
+        date: "Пожалуйста, введите допустимую дату.", //"Please enter a valid date."
+        dateISO: "Пожалуйста, введите допустимую дату (ISO).", //"Please enter a valid date (ISO)."
+        number: "Пожалуйста введите допустимый номер.", //"Please enter a valid number."
+        digits: "Пожалуйста, вводите только цифры.", //"Please enter only digits."
+        creditcard: "Пожалуйста, введите допустимый номер кредитной карты.", //"Please enter a valid credit card number."
+        equalTo: "Пожалуйста, введите такое же значение снова.", //"Please enter the same value again."
+        accept: "Пожалуйста, введите значение с допустимым расширением .", // "Please enter a value with a valid extension."
+        maxlength: $.validator.format("Пожалуйста, введите не более {0} символов."), //"Please enter no more than {0} characters."
+        minlength: $.validator.format("Пожалуйста, введите как минимум {0} символов."), //"Please enter at least {0} characters."
+        rangelength: $.validator.format("Пожалуйста, введите занчение между {0} и {1} символами в длину."), //"Please enter a value between {0} and {1} characters long."
+        range: $.validator.format("Пожалуйста, введите значение между {0} и {1}."), //"Please enter a value between {0} and {1}."
+        max: $.validator.format("Пожалуйста, введите значение меньшее или равное {0}."), //"Please enter a value less than or equal to {0}."
+        min: $.validator.format("Пожалуйста, введите значение большее или равное {0}.") //"Please enter a value greater than or equal to {0}."
 	},
 	
 	autoCreateRanges: false,
