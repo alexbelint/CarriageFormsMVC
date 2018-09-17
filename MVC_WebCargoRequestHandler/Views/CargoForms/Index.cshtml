@@ -10,11 +10,12 @@
 <table class="table"> 
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ReceiptDate)
+            @*@Html.DisplayNameFor(model => model.ReceiptDate)*@   
+            @Html.ActionLink("Дата пост. заявки", "Index", new { sortOrder = ViewBag.DateSortParm })
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.CommunicationMethod.CommunicationName)
-        </th>*@
+        <th>
+            @Html.ActionLink("Способ связи", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Customer)
         </th>
@@ -44,7 +45,8 @@
         </th>
 
         <th>
-            @Html.DisplayNameFor(model => model.ResponseDate)
+            @*@Html.DisplayNameFor(model => model.ResponseDate)*@
+            @Html.ActionLink("Дата ответа", "Index", new { sortOrder = ViewBag.DateSortParm })
         </th>
         @*<th>
             @Html.DisplayNameFor(model => model.Note)
@@ -63,9 +65,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.ReceiptDate)
         </td>
-        @*<td>
+        <td>
             @Html.DisplayFor(modelItem => item.CommunicationMethod.CommunicationName)
-        </td>*@
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Customer)
         </td>

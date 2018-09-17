@@ -16,11 +16,27 @@ namespace MVC_WebCargoRequestHandler.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         [AllowAnonymous]
         // GET: CargoForms
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
             var cargoForms = db.CargoForms.Include(c => c.CommunicationMethod).Include(c => c.Direction).Include(c => c.Residency).Include(c => c.RollingStockType).Include(c => c.TrafficClassification);
-
-            return View(cargoForms.ToList());
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "CommunicationID" : "";
+            ViewBag.DateSortParm = sortOrder == "ReceiptDate" ? "ResponseDate" : "ReceiptDate";
+            switch (sortOrder)
+            {
+                case "CommunicationID":
+                    cargoForms = cargoForms.OrderByDescending(s => s.CommunicationID);
+                    break;
+                case "ReceiptDate":
+                    cargoForms = cargoForms.OrderBy(s => s.ReceiptDate);
+                    break;
+                case "ResponseDate":
+                    cargoForms = cargoForms.OrderBy(s => s.ResponseDate);
+                    break;
+                default:
+                    cargoForms = cargoForms.OrderBy(s => s.CommunicationID);
+                    break;
+            }
+                    return View(cargoForms.ToList());
 
         }
 
