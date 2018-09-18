@@ -1,13 +1,24 @@
-﻿@model IEnumerable<MVC_WebCargoRequestHandler.Models.CargoForm>
-
+﻿@*@model IEnumerable<MVC_WebCargoRequestHandler.Models.CargoForm>*@
+@model PagedList.IPagedList<MVC_WebCargoRequestHandler.Models.CargoForm>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "Carriage Forms"; 
+    ViewBag.Title = "Carriage Forms";
 }
 <br />
 <p>
     @Html.ActionLink("Создать новую запись", "Create")
 </p>
-<table class="table"> 
+
+@using (Html.BeginForm())
+{
+    <p>
+        Поиск: @Html.TextBox("SearchString")
+        <input type="submit" value="Поиск" />
+    </p>
+}
+
+<table class="table">
     <tr>
         <th>
             @Html.ActionLink("Дата пост. заявки", "Index", new { sortOrder = ViewBag.ReceiptDateSortParm })
@@ -46,70 +57,73 @@
             @Html.ActionLink("Дата ответа", "Index", new { sortOrder = ViewBag.ResponseDateSortParm })
         </th>
         @*<th>
-            @Html.DisplayNameFor(model => model.Note)
-        </th>*@
+                @Html.DisplayNameFor(model => model.Note)
+            </th>*@
         @*<th>
-            @Html.DisplayNameFor(model => model.Feedback)
-        </th>*@
+                @Html.DisplayNameFor(model => model.Feedback)
+            </th>*@
         @*<th>
-            @Html.DisplayNameFor(model => model.Residency.ResidencyName)
-        </th>*@
+                @Html.DisplayNameFor(model => model.Residency.ResidencyName)
+            </th>*@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReceiptDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CommunicationMethod.CommunicationName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Customer)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CargoDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CargoCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Departure)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Destination)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Direction.DirectionName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RollingStockType.RollingStockName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cost)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TrafficClassification.TrafficClassificationName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ResponseDate)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.Note)
-        </td>*@
-        @*<td>
-            @Html.DisplayFor(modelItem => item.Feedback)
-        </td>*@
-        @*<td>
-            @Html.DisplayFor(modelItem => item.Residency.ResidencyName)
-        </td>*@
-        <td>
-            @Html.ActionLink("Правка", "Edit", new { id = item.CargoFormID })
-            @Html.ActionLink("Детали", "Details", new { id = item.CargoFormID })
-            @Html.ActionLink("Удалить", "Delete", new { id = item.CargoFormID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceiptDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommunicationMethod.CommunicationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CargoDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CargoCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Departure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Destination)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direction.DirectionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RollingStockType.RollingStockName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrafficClassification.TrafficClassificationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResponseDate)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>*@
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Feedback)
+                </td>*@
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Residency.ResidencyName)
+                </td>*@
+            <td>
+                @Html.ActionLink("Правка", "Edit", new { id = item.CargoFormID })
+                @Html.ActionLink("Детали", "Details", new { id = item.CargoFormID })
+                @Html.ActionLink("Удалить", "Delete", new { id = item.CargoFormID })
+            </td>
+        </tr>
+    }
 
 </table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

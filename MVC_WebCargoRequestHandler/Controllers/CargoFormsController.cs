@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MVC_WebCargoRequestHandler.Models;
+using PagedList;
 
 namespace MVC_WebCargoRequestHandler.Controllers
 {
@@ -19,6 +20,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         public ActionResult Index(string sortOrder, string searchString, int? page)
         {
             var cargoForms = db.CargoForms.Include(c => c.CommunicationMethod).Include(c => c.Direction).Include(c => c.Residency).Include(c => c.RollingStockType).Include(c => c.TrafficClassification);
+            #region sorting
             ViewBag.CommunicationIDSortParm = String.IsNullOrEmpty(sortOrder) ? "CommunicationID" : "";
             ViewBag.CustomerSortParm = sortOrder == "Customer" ? "Customer_desc" : "Customer";
             ViewBag.DepartureSortParm = sortOrder == "Departure" ? "Departure_desc" : "Departure";
@@ -108,7 +110,21 @@ namespace MVC_WebCargoRequestHandler.Controllers
                     cargoForms = cargoForms.OrderBy(s => s.ReceiptDate);
                     break;
             }
-                    return View(cargoForms.ToList());
+            #endregion
+            #region search
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                cargoForms = cargoForms.Where(s => s.Customer.Contains(searchString)
+                                       || s.CommunicationMethod.CommunicationName.Contains(searchString));
+            }
+            #endregion
+            if (Request.HttpMethod != "GET")
+            {
+                page = 1;
+            }
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(cargoForms.ToPagedList(pageNumber, pageSize));
 
         }
 
