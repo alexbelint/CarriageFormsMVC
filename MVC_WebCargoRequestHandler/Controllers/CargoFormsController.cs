@@ -16,24 +16,96 @@ namespace MVC_WebCargoRequestHandler.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         [AllowAnonymous]
         // GET: CargoForms
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, string searchString, int? page)
         {
             var cargoForms = db.CargoForms.Include(c => c.CommunicationMethod).Include(c => c.Direction).Include(c => c.Residency).Include(c => c.RollingStockType).Include(c => c.TrafficClassification);
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "CommunicationID" : "";
-            ViewBag.DateSortParm = sortOrder == "ReceiptDate" ? "ResponseDate" : "ReceiptDate";
+            ViewBag.CommunicationIDSortParm = String.IsNullOrEmpty(sortOrder) ? "CommunicationID" : "";
+            ViewBag.CustomerSortParm = sortOrder == "Customer" ? "Customer_desc" : "Customer";
+            ViewBag.DepartureSortParm = sortOrder == "Departure" ? "Departure_desc" : "Departure";
+            ViewBag.CargoDescriptionSortParm = sortOrder == "CargoDescription" ? "CargoDescription_desc" : "CargoDescription";
+            ViewBag.ReceiptDateSortParm = sortOrder == "ReceiptDate" ? "ReceiptDate_desc" : "ReceiptDate";
+            ViewBag.ResponseDateSortParm = sortOrder == "ResponseDate" ? "ResponseDate_desc" : "ResponseDate";
+            ViewBag.DestinationSortParm = sortOrder == "Destination" ? "Destination_desc" : "Destination";
+            ViewBag.CargoCodeSortParm = sortOrder == "CargoCode" ? "CargoCode_desc" : "CargoCode";
+            ViewBag.DirectionSortParm = sortOrder == "Direction" ? "Direction_desc" : "Direction";
+            ViewBag.RollingStockNameSortParm = sortOrder == "RollingStockName" ? "RollingStockName_desc" : "RollingStockName";
+            ViewBag.TrafficClassificationSortParm = sortOrder == "TrafficClassification" ? "TrafficClassification_desc" : "TrafficClassification";
+            ViewBag.CostSortParm = sortOrder == "Cost" ? "Cost_desc" : "Cost";
+
             switch (sortOrder)
             {
                 case "CommunicationID":
                     cargoForms = cargoForms.OrderByDescending(s => s.CommunicationID);
                     break;
+                case "ReceiptDate_desc":
+                    cargoForms = cargoForms.OrderByDescending(s => s.ReceiptDate);
+                    break;
                 case "ReceiptDate":
                     cargoForms = cargoForms.OrderBy(s => s.ReceiptDate);
+                    break;
+                case "ResponseDate_desc":
+                    cargoForms = cargoForms.OrderByDescending(s => s.ResponseDate);
                     break;
                 case "ResponseDate":
                     cargoForms = cargoForms.OrderBy(s => s.ResponseDate);
                     break;
+                case "Customer":
+                    cargoForms = cargoForms.OrderBy(s => s.Customer);
+                    break;
+                case "Customer_desc":
+                    cargoForms = cargoForms.OrderByDescending(s => s.Customer);
+                    break;
+                case "Departure":
+                    cargoForms = cargoForms.OrderBy(s => s.Departure);
+                    break;
+                case "Departure_desc":
+                    cargoForms = cargoForms.OrderBy(s => s.Departure);
+                    break;
+                case "CargoDescription":
+                    cargoForms = cargoForms.OrderBy(s => s.CargoDescription);
+                    break;
+                case "CargoDescription_desc":
+                    cargoForms = cargoForms.OrderBy(s => s.CargoDescription);
+                    break;
+                case "Destination_desc":
+                    cargoForms = cargoForms.OrderByDescending(s => s.Destination);
+                    break;
+                case "Destination":
+                    cargoForms = cargoForms.OrderBy(s => s.Destination);
+                    break;
+                case "CargoCode_desc":
+                    cargoForms = cargoForms.OrderByDescending(s => s.CargoCode);
+                    break;
+                case "CargoCode":
+                    cargoForms = cargoForms.OrderBy(s => s.CargoCode);
+                    break;
+                case "Direction_desc":
+                    cargoForms = cargoForms.OrderByDescending(s => s.Direction.DirectionName);
+                    break;
+                case "Direction":
+                    cargoForms = cargoForms.OrderBy(s => s.Direction.DirectionName);
+                    break;
+                case "RollingStockName_desc":
+                    cargoForms = cargoForms.OrderByDescending(s => s.RollingStockType.RollingStockName);
+                    break;
+                case "RollingStockName":
+                    cargoForms = cargoForms.OrderBy(s => s.RollingStockType.RollingStockName);
+                    break;
+                case "Cost_desc":
+                    cargoForms = cargoForms.OrderByDescending(s => s.Cost);
+                    break;
+                case "Cost":
+                    cargoForms = cargoForms.OrderBy(s => s.Cost);
+                    break;
+                case "TrafficClassification_desc":
+                    cargoForms = cargoForms.OrderByDescending(s => s.TrafficClassification.TrafficClassificationName);
+                    break;
+                case "TrafficClassification":
+                    cargoForms = cargoForms.OrderBy(s => s.TrafficClassification.TrafficClassificationName);
+                    break;
+
                 default:
-                    cargoForms = cargoForms.OrderBy(s => s.CommunicationID);
+                    cargoForms = cargoForms.OrderBy(s => s.ReceiptDate);
                     break;
             }
                     return View(cargoForms.ToList());
@@ -125,22 +197,17 @@ namespace MVC_WebCargoRequestHandler.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int? id,[Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,СurrentUserId,Author")] CargoForm cargoForm)
+        public ActionResult Edit([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,СurrentUserId")] CargoForm cargoForm)
         {
-            CargoForm cargoForms = db.CargoForms.Find(id);
-            if (cargoForms == null)
-            {
-                return HttpNotFound();
-            }
             if (ModelState.IsValid)
             {
-                db.Entry(cargoForms).State = EntityState.Modified;
+                db.Entry(cargoForm).State = EntityState.Modified;
                 if (User.Identity.IsAuthenticated) //gather info about current user
                 {
                     string currentUserId = User.Identity.GetUserId();
                     ApplicationUser applicationUser = db.Users.FirstOrDefault(x => x.Id == currentUserId); 
                     string currentUser = applicationUser.UserName;
-                    cargoForms.СurrentUserId = currentUser;
+                    cargoForm.СurrentUserId = currentUser;
                 }
                 db.SaveChanges();
                 return RedirectToAction("Index");
