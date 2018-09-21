@@ -203,6 +203,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CargoFormsController.cs" />
     <Compile Include="Controllers\CommunicationMethodsController.cs" />
+    <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ResidenciesController.cs" />
@@ -211,22 +212,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809040723309_Initial.cs" />
-    <Compile Include="Migrations\201809040723309_Initial.Designer.cs">
-      <DependentUpon>201809040723309_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809041035407_ReceiptDateAdd.cs" />
-    <Compile Include="Migrations\201809041035407_ReceiptDateAdd.Designer.cs">
-      <DependentUpon>201809041035407_ReceiptDateAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809131027531_addAuthor.cs" />
-    <Compile Include="Migrations\201809131027531_addAuthor.Designer.cs">
-      <DependentUpon>201809131027531_addAuthor.cs</DependentUpon>
+    <Compile Include="Migrations\201809210701458_Custom.cs" />
+    <Compile Include="Migrations\201809210701458_Custom.Designer.cs">
+      <DependentUpon>201809210701458_Custom.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CargoForm.cs" />
     <Compile Include="Models\CommunicationMethod.cs" />
+    <Compile Include="Models\Currencies.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -318,6 +312,10 @@
     <Content Include="Views\CargoForms\Details.cshtml" />
     <Content Include="Views\CargoForms\Edit.cshtml" />
     <Content Include="Views\CargoForms\Index.cshtml" />
+    <Content Include="Views\Currency\Create.cshtml" />
+    <Content Include="Views\Currency\Delete.cshtml" />
+    <Content Include="Views\Currency\Edit.cshtml" />
+    <Content Include="Views\Currency\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -336,14 +334,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809040723309_Initial.resx">
-      <DependentUpon>201809040723309_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809041035407_ReceiptDateAdd.resx">
-      <DependentUpon>201809041035407_ReceiptDateAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809131027531_addAuthor.resx">
-      <DependentUpon>201809131027531_addAuthor.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809210701458_Custom.resx">
+      <DependentUpon>201809210701458_Custom.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

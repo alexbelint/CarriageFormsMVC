@@ -36,6 +36,9 @@ namespace MVC_WebCargoRequestHandler.Models
         public int RollingStockID { get; set; }
         public virtual RollingStockType RollingStockType { get; set; }//Тип подвижного состава: (цистерна СПС/ 40фут)
 
+        public int CurrencyID { get; set; }
+        public virtual Currencies Currencies { get; set; }//Валюта
+
 
         [Display(Name = "Стоимость")]
         public string Cost { get; set; } //Стоимость

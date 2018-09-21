@@ -7,13 +7,13 @@ namespace MVC_WebCargoRequestHandler.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class ReceiptDateAdd : IMigrationMetadata
+    public sealed partial class Custom : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ReceiptDateAdd));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Custom));
         
         string IMigrationMetadata.Id
         {
-            get { return "201809041035407_ReceiptDateAdd"; }
+            get { return "201809210701458_Custom"; }
         }
         
         string IMigrationMetadata.Source

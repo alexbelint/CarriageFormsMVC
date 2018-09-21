@@ -3,7 +3,7 @@ namespace MVC_WebCargoRequestHandler.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class Custom : DbMigration
     {
         public override void Up()
         {
@@ -12,14 +12,15 @@ namespace MVC_WebCargoRequestHandler.Migrations
                 c => new
                     {
                         CargoFormID = c.Int(nullable: false, identity: true),
-                        CommunicationID = c.Int(nullable: false),
                         ReceiptDate = c.String(),
+                        CommunicationID = c.Int(nullable: false),
                         Customer = c.String(),
                         Departure = c.String(),
                         Destination = c.String(),
                         CargoDescription = c.String(),
                         CargoCode = c.String(),
                         RollingStockID = c.Int(nullable: false),
+                        CurrencyID = c.Int(nullable: false),
                         Cost = c.String(),
                         ResponseDate = c.String(),
                         Note = c.String(),
@@ -27,17 +28,19 @@ namespace MVC_WebCargoRequestHandler.Migrations
                         TrafficClassificationID = c.Int(nullable: false),
                         DirectionID = c.Int(nullable: false),
                         ResidencyID = c.Int(nullable: false),
-                        CurrentUserID = c.Int(nullable: false),
-                        Author = c.String(nullable: false),
-                })
+                        СurrentUserId = c.String(),
+                        Author = c.String(),
+                    })
                 .PrimaryKey(t => t.CargoFormID)
                 .ForeignKey("dbo.CommunicationMethods", t => t.CommunicationID, cascadeDelete: true)
+                .ForeignKey("dbo.Currencies", t => t.CurrencyID, cascadeDelete: true)
                 .ForeignKey("dbo.Directions", t => t.DirectionID, cascadeDelete: true)
                 .ForeignKey("dbo.Residencies", t => t.ResidencyID, cascadeDelete: true)
                 .ForeignKey("dbo.RollingStockTypes", t => t.RollingStockID, cascadeDelete: true)
                 .ForeignKey("dbo.TrafficClassifications", t => t.TrafficClassificationID, cascadeDelete: true)
                 .Index(t => t.CommunicationID)
                 .Index(t => t.RollingStockID)
+                .Index(t => t.CurrencyID)
                 .Index(t => t.TrafficClassificationID)
                 .Index(t => t.DirectionID)
                 .Index(t => t.ResidencyID);
@@ -50,6 +53,15 @@ namespace MVC_WebCargoRequestHandler.Migrations
                         CommunicationName = c.String(),
                     })
                 .PrimaryKey(t => t.CommunicationID);
+            
+            CreateTable(
+                "dbo.Currencies",
+                c => new
+                    {
+                        CurrencyID = c.Int(nullable: false, identity: true),
+                        CurrencyName = c.String(),
+                    })
+                .PrimaryKey(t => t.CurrencyID);
             
             CreateTable(
                 "dbo.Directions",
@@ -167,6 +179,7 @@ namespace MVC_WebCargoRequestHandler.Migrations
             DropForeignKey("dbo.CargoForms", "RollingStockID", "dbo.RollingStockTypes");
             DropForeignKey("dbo.CargoForms", "ResidencyID", "dbo.Residencies");
             DropForeignKey("dbo.CargoForms", "DirectionID", "dbo.Directions");
+            DropForeignKey("dbo.CargoForms", "CurrencyID", "dbo.Currencies");
             DropForeignKey("dbo.CargoForms", "CommunicationID", "dbo.CommunicationMethods");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
@@ -177,6 +190,7 @@ namespace MVC_WebCargoRequestHandler.Migrations
             DropIndex("dbo.CargoForms", new[] { "ResidencyID" });
             DropIndex("dbo.CargoForms", new[] { "DirectionID" });
             DropIndex("dbo.CargoForms", new[] { "TrafficClassificationID" });
+            DropIndex("dbo.CargoForms", new[] { "CurrencyID" });
             DropIndex("dbo.CargoForms", new[] { "RollingStockID" });
             DropIndex("dbo.CargoForms", new[] { "CommunicationID" });
             DropTable("dbo.AspNetUserLogins");
@@ -188,6 +202,7 @@ namespace MVC_WebCargoRequestHandler.Migrations
             DropTable("dbo.RollingStockTypes");
             DropTable("dbo.Residencies");
             DropTable("dbo.Directions");
+            DropTable("dbo.Currencies");
             DropTable("dbo.CommunicationMethods");
             DropTable("dbo.CargoForms");
         }

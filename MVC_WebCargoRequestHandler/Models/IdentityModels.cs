@@ -41,5 +41,7 @@ namespace MVC_WebCargoRequestHandler.Models
         public System.Data.Entity.DbSet<MVC_WebCargoRequestHandler.Models.Residency> Residencies { get; set; }
 
         public System.Data.Entity.DbSet<MVC_WebCargoRequestHandler.Models.CargoForm> CargoForms { get; set; }
+
+        public System.Data.Entity.DbSet<MVC_WebCargoRequestHandler.Models.Currencies> Currencies { get; set; }
     }
 }

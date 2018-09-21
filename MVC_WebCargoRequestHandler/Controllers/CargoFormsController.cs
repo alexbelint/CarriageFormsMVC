@@ -19,7 +19,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         // GET: CargoForms
         public ActionResult Index(string sortOrder, string searchString, int? page)
         {
-            var cargoForms = db.CargoForms.Include(c => c.CommunicationMethod).Include(c => c.Direction).Include(c => c.Residency).Include(c => c.RollingStockType).Include(c => c.TrafficClassification);
+            var cargoForms = db.CargoForms.Include(c => c.CommunicationMethod).Include(c => c.Direction).Include(c => c.Residency).Include(c => c.RollingStockType).Include(c => c.TrafficClassification).Include(c => c.Currencies);
             #region sorting
             ViewBag.CommunicationIDSortParm = String.IsNullOrEmpty(sortOrder) ? "CommunicationID" : "";
             ViewBag.CustomerSortParm = sortOrder == "Customer" ? "Customer_desc" : "Customer";
@@ -33,6 +33,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
             ViewBag.RollingStockNameSortParm = sortOrder == "RollingStockName" ? "RollingStockName_desc" : "RollingStockName";
             ViewBag.TrafficClassificationSortParm = sortOrder == "TrafficClassification" ? "TrafficClassification_desc" : "TrafficClassification";
             ViewBag.CostSortParm = sortOrder == "Cost" ? "Cost_desc" : "Cost";
+            ViewBag.CurrencySortParm = sortOrder == "Currency" ? "Currency_desc" : "Currency";
 
             switch (sortOrder)
             {
@@ -105,6 +106,12 @@ namespace MVC_WebCargoRequestHandler.Controllers
                 case "TrafficClassification":
                     cargoForms = cargoForms.OrderBy(s => s.TrafficClassification.TrafficClassificationName);
                     break;
+                case "Currency_desc":
+                    cargoForms = cargoForms.OrderByDescending(s => s.Currencies.CurrencyName);
+                    break;
+                case "Currency":
+                    cargoForms = cargoForms.OrderBy(s => s.Currencies.CurrencyName);
+                    break;
 
                 default:
                     cargoForms = cargoForms.OrderBy(s => s.ReceiptDate);
@@ -153,6 +160,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
             ViewBag.ResidencyID = new SelectList(db.Residencies, "ResidencyID", "ResidencyName");
             ViewBag.RollingStockID = new SelectList(db.RollingStockTypes, "RollingStockID", "RollingStockName");
             ViewBag.TrafficClassificationID = new SelectList(db.TrafficClassifications, "TrafficClassificationID", "TrafficClassificationName");
+            ViewBag.CurrencyID = new SelectList(db.Currencies, "CurrencyID", "CurrencyName");
             return View();
         }
 
@@ -160,10 +168,8 @@ namespace MVC_WebCargoRequestHandler.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,Author,СurrentUserId")] CargoForm cargoForm)
+        public ActionResult Create([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,СurrentUserId,CurrencyID")] CargoForm cargoForm)
         {
-            
-
             if (ModelState.IsValid)
             {
                 db.CargoForms.Add(cargoForm);
@@ -171,8 +177,8 @@ namespace MVC_WebCargoRequestHandler.Controllers
                 {
                     string currentUserId = User.Identity.GetUserId();
                     ApplicationUser applicationUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
-                    string author = applicationUser.UserName;
-                    cargoForm.Author = author;
+                    //string author = applicationUser.UserName;
+                    //cargoForm.Author = author;
                 }
 
                 db.SaveChanges();
@@ -184,6 +190,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
             ViewBag.ResidencyID = new SelectList(db.Residencies, "ResidencyID", "ResidencyName", cargoForm.ResidencyID);
             ViewBag.RollingStockID = new SelectList(db.RollingStockTypes, "RollingStockID", "RollingStockName", cargoForm.RollingStockID);
             ViewBag.TrafficClassificationID = new SelectList(db.TrafficClassifications, "TrafficClassificationID", "TrafficClassificationName", cargoForm.TrafficClassificationID);
+            ViewBag.CurrencyID = new SelectList(db.Currencies, "CurrencyID", "CurrencyName", cargoForm.CurrencyID);
             return View(cargoForm);
         }
 
@@ -206,6 +213,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
             ViewBag.ResidencyID = new SelectList(db.Residencies, "ResidencyID", "ResidencyName", cargoForm.ResidencyID);
             ViewBag.RollingStockID = new SelectList(db.RollingStockTypes, "RollingStockID", "RollingStockName", cargoForm.RollingStockID);
             ViewBag.TrafficClassificationID = new SelectList(db.TrafficClassifications, "TrafficClassificationID", "TrafficClassificationName", cargoForm.TrafficClassificationID);
+            ViewBag.CurrencyID = new SelectList(db.Currencies, "CurrencyID", "CurrencyName", cargoForm.CurrencyID);
             return View(cargoForm);
         }
 
@@ -213,7 +221,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,СurrentUserId")] CargoForm cargoForm)
+        public ActionResult Edit([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,СurrentUserId,CurrencyID")] CargoForm cargoForm)
         {
             if (ModelState.IsValid)
             {
@@ -233,8 +241,9 @@ namespace MVC_WebCargoRequestHandler.Controllers
             ViewBag.ResidencyID = new SelectList(db.Residencies, "ResidencyID", "ResidencyName", cargoForm.ResidencyID);
             ViewBag.RollingStockID = new SelectList(db.RollingStockTypes, "RollingStockID", "RollingStockName", cargoForm.RollingStockID);
             ViewBag.TrafficClassificationID = new SelectList(db.TrafficClassifications, "TrafficClassificationID", "TrafficClassificationName", cargoForm.TrafficClassificationID);
+            ViewBag.CurrencyID = new SelectList(db.Currencies, "CurrencyID", "CurrencyName", cargoForm.CurrencyID);
 
-          
+
 
             return View(cargoForm);
         }
