@@ -129,7 +129,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
             {
                 page = 1;
             }
-            int pageSize = 10;
+            int pageSize = 15;
             int pageNumber = (page ?? 1);
             return View(cargoForms.ToPagedList(pageNumber, pageSize));
 

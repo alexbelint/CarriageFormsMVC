@@ -7,6 +7,24 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    @*<script type="text/javascript">
+        var spinnerVisible = false;
+        function showProgress() {
+            if (!spinnerVisible) {
+                $("div#spinner").fadeIn("fast");
+                spinnerVisible = true;
+            }
+        };
+        function hideProgress() {
+            if (spinnerVisible) {
+                var spinner = $("div#spinner");
+                spinner.stop();
+                spinner.fadeOut("fast");
+                spinnerVisible = false;
+            }
+        };
+    </script>*@
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -22,21 +40,22 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Главная", "Index", "CargoForms")</li>
-                    <li class="nav-item dropdown"> 
+                    <li class="nav-item dropdown">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Меню <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a>@Html.ActionLink("Способ связи", "Index", "CommunicationMethods")</a></li>
-                            <li><a>@Html.ActionLink("Направление", "Index", "Directions")</a></li>
-                            <li><a>@Html.ActionLink("Резиденство", "Index", "Residencies")</a></li>
-                            <li><a>@Html.ActionLink("Подвижной состав", "Index", "RollingStockTypes")</a></li>
-                            <li><a>@Html.ActionLink("Вид сообщения", "Index", "TrafficClassifications")</a></li>
+                            <li>@Html.ActionLink("Способ связи", "Index", "CommunicationMethods")</li>
+                            <li>@Html.ActionLink("Направление", "Index", "Directions")</li>
+                            <li>@Html.ActionLink("Резиденство", "Index", "Residencies")</li>
+                            <li>@Html.ActionLink("Подвижной состав", "Index", "RollingStockTypes")</li>
+                            <li>@Html.ActionLink("Вид сообщения", "Index", "TrafficClassifications")</li>
                             @*<li><a>@Html.ActionLink("Валюты", "Index", "Currency")</a></li>*@
                             @*<li role="separator" class="divider"></li>
-        <li><a>@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</a></li>*@
+                                <li><a>@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</a></li>*@
                         </ul>
                     </li>
                 </ul>
+
                 @Html.Partial("_LoginPartial")
             </div>
 
@@ -44,6 +63,7 @@
     </div>
     <div class="container body-content">
         @RenderBody()
+        <br />
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Carriage Forms</p>
