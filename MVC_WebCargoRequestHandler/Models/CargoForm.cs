@@ -41,7 +41,7 @@ namespace MVC_WebCargoRequestHandler.Models
 
 
         [Display(Name = "Стоимость")]
-        public string Cost { get; set; } //Стоимость
+        public decimal? Cost { get; set; } //Стоимость
 
 
         [DataType(DataType.Date)]

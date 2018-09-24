@@ -21,7 +21,7 @@ namespace MVC_WebCargoRequestHandler.Migrations
                         CargoCode = c.String(),
                         RollingStockID = c.Int(nullable: false),
                         CurrencyID = c.Int(nullable: false),
-                        Cost = c.String(),
+                        Cost = c.Decimal(),
                         ResponseDate = c.String(),
                         Note = c.String(),
                         Feedback = c.String(),
