@@ -6,24 +6,23 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
     @*<script type="text/javascript">
-        var spinnerVisible = false;
-        function showProgress() {
-            if (!spinnerVisible) {
-                $("div#spinner").fadeIn("fast");
-                spinnerVisible = true;
-            }
-        };
-        function hideProgress() {
-            if (spinnerVisible) {
-                var spinner = $("div#spinner");
-                spinner.stop();
-                spinner.fadeOut("fast");
-                spinnerVisible = false;
-            }
-        };
-    </script>*@
+            var spinnerVisible = false;
+            function showProgress() {
+                if (!spinnerVisible) {
+                    $("div#spinner").fadeIn("fast");
+                    spinnerVisible = true;
+                }
+            };
+            function hideProgress() {
+                if (spinnerVisible) {
+                    var spinner = $("div#spinner");
+                    spinner.stop();
+                    spinner.fadeOut("fast");
+                    spinnerVisible = false;
+                }
+            };
+        </script>*@
 
 </head>
 <body>
@@ -69,7 +68,7 @@
             <p>&copy; @DateTime.Now.Year - Carriage Forms</p>
         </footer>
     </div>
-
+    <div class="preLoadingPage"></div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

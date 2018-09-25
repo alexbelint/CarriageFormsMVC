@@ -11,21 +11,13 @@
 </p>
 
 
-
-@*@using (Html.BeginForm())
-    {
-        <p>
-            Поиск: @Html.TextBox("SearchString")
-            <input type="submit" value="Поиск" />
-        </p>
-    }*@
 @using (Html.BeginForm())
 {
 <div class="col-lg-4">
     <div class="input-group">
         <input type="search" class="form-control" id="searchString" name="searchString" placeholder="Заказчик или способ связи" />
         <span class="input-group-btn">
-            <button class="btn btn-default" type="button">Поиск</button>
+            <button class="btn btn-default" type="search">Поиск</button>
         </span>
     </div>
     <br />

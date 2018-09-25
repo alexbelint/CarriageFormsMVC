@@ -129,7 +129,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
             {
                 page = 1;
             }
-            int pageSize = 15;
+            int pageSize = 12;
             int pageNumber = (page ?? 1);
             return View(cargoForms.ToPagedList(pageNumber, pageSize));
 
@@ -173,7 +173,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
             if (ModelState.IsValid)
             {
                 db.CargoForms.Add(cargoForm);
-                if (User.Identity.IsAuthenticated) //gather info about author
+                if (User.Identity.IsAuthenticated) //gather info about user
                 {
                     string currentUserId = User.Identity.GetUserId();
                     ApplicationUser applicationUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
