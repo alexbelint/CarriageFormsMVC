@@ -17,7 +17,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         [AllowAnonymous]
         // GET: CargoForms
-        public ActionResult Index(string sortOrder, string searchString, int? page)
+        public ActionResult Index(string sortOrder,string currentFilter, string searchString, int? page)
         {
             var cargoForms = db.CargoForms.Include(c => c.CommunicationMethod).Include(c => c.Direction).Include(c => c.Residency).Include(c => c.RollingStockType).Include(c => c.TrafficClassification).Include(c => c.Currencies);
             #region sorting
@@ -118,6 +118,18 @@ namespace MVC_WebCargoRequestHandler.Controllers
                     break;
             }
             #endregion
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
             #region search
             if (!String.IsNullOrEmpty(searchString))
             {
