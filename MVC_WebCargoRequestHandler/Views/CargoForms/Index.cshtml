@@ -13,15 +13,15 @@
 
 @using (Html.BeginForm())
 {
-<div class="col-lg-4">
-    <div class="input-group">
-        <input type="search" class="form-control" id="searchString" name="searchString" placeholder="Заказчик или способ связи" />
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="search">Поиск</button>
-        </span>
+    <div class="col-lg-4">
+        <div class="input-group">
+            <input type="search" class="form-control" id="searchString" name="searchString" placeholder="Заказчик или способ связи" />
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="search">Поиск</button>
+            </span>
+        </div>
+        <br />
     </div>
-    <br />
-</div>
 }
 <table class="table">
     <tr>
@@ -136,5 +136,10 @@
     }
 
 </table>
+@*Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))*@
+
 Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
