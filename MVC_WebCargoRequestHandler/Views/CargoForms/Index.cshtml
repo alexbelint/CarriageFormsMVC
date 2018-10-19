@@ -17,7 +17,7 @@
         <div class="input-group">
             <input type="search" class="form-control" id="searchString" name="searchString" placeholder="Заказчик или способ связи" />
             <span class="input-group-btn">
-                <button class="btn btn-default" type="search">Поиск</button>
+                <button class="btn btn-default" type="submit">Поиск</button>
             </span>
         </div>
         <br />
@@ -41,7 +41,7 @@
             @Html.ActionLink("ГНГ/ЕТСНГ", "Index", new { sortOrder = ViewBag.CargoCodeSortParm })
         </th>
         <th>
-            @Html.ActionLink("Описание груза", "Index", new { sortOrder = ViewBag.DepartureSortParm })
+            @Html.ActionLink("Станция отправления", "Index", new { sortOrder = ViewBag.DepartureSortParm })
         </th>
         <th>
             @Html.ActionLink("Место назначения", "Index", new { sortOrder = ViewBag.DestinationSortParm })
@@ -128,16 +128,17 @@
                     @Html.DisplayFor(modelItem => item.Residency.ResidencyName)
                 </td>*@
             <td>
-                @Html.ActionLink("Правка", "Edit", new { id = item.CargoFormID })
-                @Html.ActionLink("Детали", "Details", new { id = item.CargoFormID })
-                @Html.ActionLink("Удалить", "Delete", new { id = item.CargoFormID })
+                @*@Html.ActionLink("Edit", "Edit", "", new { @class = "btn btn-primary" })*@
+                @Html.ActionLink("Правка", "Edit",  new { id = item.CargoFormID }, new { @class = "	glyphicon glyphicon-edit" })
+                @Html.ActionLink("Клонировать", "Clone", new { id = item.CargoFormID }, new { @class = "glyphicon glyphicon-share" })
+                @Html.ActionLink("Детали", "Details", new { id = item.CargoFormID }, new { @class = "glyphicon glyphicon-check" })
+                @Html.ActionLink("Удалить", "Delete", new { id = item.CargoFormID }, new { @class = "glyphicon glyphicon-trash" })
             </td>
         </tr>
     }
 
 </table>
-@*Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))*@
+
 
 Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 

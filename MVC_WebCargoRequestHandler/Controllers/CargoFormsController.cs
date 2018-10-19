@@ -288,6 +288,62 @@ namespace MVC_WebCargoRequestHandler.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: CargoForms/Clone/5
+        [Authorize]
+        public ActionResult Clone(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CargoForm cargoForm = db.CargoForms.Find(id);
+            if (cargoForm == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CommunicationID = new SelectList(db.CommunicationMethods, "CommunicationID", "CommunicationName", cargoForm.CommunicationID);
+            ViewBag.DirectionID = new SelectList(db.Directions, "DirectionID", "DirectionName", cargoForm.DirectionID);
+            ViewBag.ResidencyID = new SelectList(db.Residencies, "ResidencyID", "ResidencyName", cargoForm.ResidencyID);
+            ViewBag.RollingStockID = new SelectList(db.RollingStockTypes, "RollingStockID", "RollingStockName", cargoForm.RollingStockID);
+            ViewBag.TrafficClassificationID = new SelectList(db.TrafficClassifications, "TrafficClassificationID", "TrafficClassificationName", cargoForm.TrafficClassificationID);
+            ViewBag.CurrencyID = new SelectList(db.Currencies, "CurrencyID", "CurrencyName", cargoForm.CurrencyID);
+            return View(cargoForm);
+        }
+
+        // POST: CargoForms/Clone/5
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Clone([Bind(Include = "CargoFormID,ReceiptDate,CommunicationID,Customer,Departure,Destination,CargoDescription,CargoCode,RollingStockID,Cost,ResponseDate,Note,Feedback,TrafficClassificationID,DirectionID,ResidencyID,СurrentUserId,CurrencyID")] CargoForm cargoForm)
+        {
+            if (ModelState.IsValid)
+            {
+                //db.Entry(cargoForm).State = EntityState.Modified;
+                db.CargoForms.Add(cargoForm);
+                if (User.Identity.IsAuthenticated) //gather info about current user
+                {
+                    string currentUserId = User.Identity.GetUserId();
+                    ApplicationUser applicationUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+                    string currentUser = applicationUser.UserName;
+
+                    cargoForm.СurrentUserId = currentUser;
+                }
+               
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.CommunicationID = new SelectList(db.CommunicationMethods, "CommunicationID", "CommunicationName", cargoForm.CommunicationID);
+            ViewBag.DirectionID = new SelectList(db.Directions, "DirectionID", "DirectionName", cargoForm.DirectionID);
+            ViewBag.ResidencyID = new SelectList(db.Residencies, "ResidencyID", "ResidencyName", cargoForm.ResidencyID);
+            ViewBag.RollingStockID = new SelectList(db.RollingStockTypes, "RollingStockID", "RollingStockName", cargoForm.RollingStockID);
+            ViewBag.TrafficClassificationID = new SelectList(db.TrafficClassifications, "TrafficClassificationID", "TrafficClassificationName", cargoForm.TrafficClassificationID);
+            ViewBag.CurrencyID = new SelectList(db.Currencies, "CurrencyID", "CurrencyName", cargoForm.CurrencyID);
+
+            return View(cargoForm);
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

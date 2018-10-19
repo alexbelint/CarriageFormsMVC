@@ -319,6 +319,7 @@
     <Content Include="Views\Currency\Delete.cshtml" />
     <Content Include="Views\Currency\Edit.cshtml" />
     <Content Include="Views\Currency\Index.cshtml" />
+    <Content Include="Views\CargoForms\Clone.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
