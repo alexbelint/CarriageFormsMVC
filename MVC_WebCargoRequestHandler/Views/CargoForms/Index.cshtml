@@ -2,14 +2,14 @@
 @model PagedList.IPagedList<MVC_WebCargoRequestHandler.Models.CargoForm>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@*<link href="~/Content/Test.css" rel="stylesheet" type="text/css" />*@
 @{
     ViewBag.Title = "Carriage Forms";
 }
 <br />
 <p>
-    @Html.ActionLink("Создать новую запись", "Create")
+    @Html.ActionLink("Создать новую запись", "Create", null, new { @class = "btn btn-primary" })
 </p>
-
 
 @using (Html.BeginForm())
 {
@@ -23,7 +23,7 @@
         <br />
     </div>
 }
-<table class="table">
+<table class="table table-hover testColumnWidth">
     <tr>
         <th>
             @Html.ActionLink("Дата пост. заявки", "Index", new { sortOrder = ViewBag.ReceiptDateSortParm })
@@ -64,15 +64,6 @@
         <th>
             @Html.ActionLink("Дата ответа", "Index", new { sortOrder = ViewBag.ResponseDateSortParm })
         </th>
-        @*<th>
-                @Html.DisplayNameFor(model => model.Note)
-            </th>*@
-        @*<th>
-                @Html.DisplayNameFor(model => model.Feedback)
-            </th>*@
-        @*<th>
-                @Html.DisplayNameFor(model => model.Residency.ResidencyName)
-            </th>*@
         <th></th>
     </tr>
 
@@ -119,28 +110,36 @@
                 @Html.DisplayFor(modelItem => item.ResponseDate)
             </td>
             @*<td>
-                    @Html.DisplayFor(modelItem => item.Note)
-                </td>*@
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Feedback)
-                </td>*@
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Residency.ResidencyName)
-                </td>*@
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", "", new { @class = "btn btn-primary" })*@
-                @Html.ActionLink("Правка", "Edit",  new { id = item.CargoFormID }, new { @class = "	glyphicon glyphicon-edit" })
-                @Html.ActionLink("Клонировать", "Clone", new { id = item.CargoFormID }, new { @class = "glyphicon glyphicon-share" })
-                @Html.ActionLink("Детали", "Details", new { id = item.CargoFormID }, new { @class = "glyphicon glyphicon-check" })
+                <div class="btn-group-xs" role="rowgroup" aria-label="Basic example">
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="Отредактировать запись" onclick="location.href='@Url.Action("Edit", new { id = item.CargoFormID })'">  Правка </button>
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="Создать такую же запись" onclick="location.href='@Url.Action("Clone", new { id = item.CargoFormID })'">  Дублировать </button>
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="Подробности" onclick="location.href='@Url.Action("Details", new { id = item.CargoFormID })'">  Подробнее </button>
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="Удалить запись" onclick="location.href='@Url.Action("Delete", new { id = item.CargoFormID })'">  Удалить </button>
+                </div>
                 @Html.ActionLink("Удалить", "Delete", new { id = item.CargoFormID }, new { @class = "glyphicon glyphicon-trash" })
+
+            </td>*@
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Действия
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="@Url.Action("Edit", new { id = item.CargoFormID })">Редактировать</a>
+                        <a class="dropdown-item" href="@Url.Action("Clone", new { id = item.CargoFormID })">Дублировать</a>
+                        <a class="dropdown-item" href="@Url.Action("Details", new { id = item.CargoFormID })">Подробнее</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="@Url.Action("Delete", new { id = item.CargoFormID })">Удалить</a>
+
+                    </div>
+                </div>
             </td>
         </tr>
     }
 
 </table>
 
+        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
