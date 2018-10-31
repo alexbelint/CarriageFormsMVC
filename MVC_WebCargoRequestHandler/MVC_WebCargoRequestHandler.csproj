@@ -209,6 +209,7 @@
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\DirectionsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReportGeneratorController.cs" />
     <Compile Include="Controllers\ResidenciesController.cs" />
     <Compile Include="Controllers\RollingStockTypesController.cs" />
     <Compile Include="Controllers\TrafficClassificationsController.cs" />
@@ -321,6 +322,7 @@
     <Content Include="Views\Currency\Edit.cshtml" />
     <Content Include="Views\Currency\Index.cshtml" />
     <Content Include="Views\CargoForms\Clone.cshtml" />
+    <Content Include="Views\ReportGenerator\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

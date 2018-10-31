@@ -1,0 +1,33 @@
+﻿<div>
+    <div style="margin-bottom: 10px; margin-top: 20px">
+        <label for="customer">Заказчик</label>
+        <input id="customer" />
+    </div>
+    <div>
+        <label for="destination">Пункт назначения</label>
+        <input id="destination" />
+    </div>
+    <button id="getResult"></button>
+    <table id="results">
+        <thead>
+            <tr><th>Дата пост. заявки</th><th>Заказчик</th><th>Пункт назначения</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $('#getResult').click(function () {
+            $.post('./ReportGenerator/GetResult', { 'Customer': $('#customer').val(), 'Destination': $('#destination').val() }, function (res) {
+                var bodyString = '';
+                res.forEach(function (record) {
+                    bodyString += ('<tr><td>' + record.ReceiptDate + '</td><td>' + record.Customer + '</td><td>' + record.Destination + '</td>' + '</tr>');
+                });
+                $('#results tbody').html(bodyString);
+            })
+        });
+
+    </script>
+}
