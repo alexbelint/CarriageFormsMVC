@@ -1,41 +1,61 @@
-﻿<div>
+﻿<form>
     <div style="margin-bottom: 10px; margin-top: 20px">
         <label for="customer">Заказчик</label>
-        <input id="customer" />
+        <input name="customer" id="customer" />
     </div>
     <div>
         <label for="destination">Пункт назначения</label>
-        <input id="destination" />
+        <input name="destination" id="destination" />
     </div>
     <div>
         <label for="departure">Станция отправления</label>
-        <input id="departure" />
+        <input name="departure" id="departure" />
     </div>
-    <button id="getResult"></button>
+    <button id="getResult" type="button">Найти</button>
     <table id="results">
         <thead>
-            <tr><th>Дата пост. заявки</th><th>Заказчик</th><th>Пункт назначения</th>
         </thead>
         <tbody></tbody>
     </table>
-</div>
+</form>
 
 @section Scripts {
     <script type="text/javascript">
-        //TODO: populate entire set of inputs and construct JS payload
+
+        //небольшой кусочек кода, чтобы получать новые результаты после нажатия на Enter
+        $(document).keyup(function (e) {
+            //отлавливаем нажатие кнопки Enter
+            if (e.keyCode === 13) {
+                $('#getResult').click();
+            }
+
         $('#getResult').click(function () {
-            $.post('./ReportGenerator/GetResult',
-                {
-                    'Customer': $('#customer').val(),
-                    'Destination': $('#destination').val(),
-                    'Departure': $('#departure').val()
-                }, function (res) {
-                var bodyString = '';
-                res.forEach(function (record) {
-                    bodyString += ('<tr><td>' + record.ReceiptDate + '</td><td>' + record.Customer + '</td><td>' + record.Destination + '</td>' + '</tr>');
-                });
-                $('#results tbody').html(bodyString);
-            })
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: './ReportGenerator/GetFilteredResult',
+                data: $('form').serialize(),
+                success: function (res, textStatus, jqXHR) {
+                    var thead = '';
+                    var headContent = '';
+                    var tbody = '';
+                    res.forEach(function (record, index) {
+                        for (var prop in record) {
+                            //заполняем шапку однократно на основании первой записи
+                            if (index === 0) {
+                                thead += `<th>${prop}</th>`
+                            }
+                            tbody += `<td>${record[prop]}</td>`
+                        }
+                        if (index === 0) {
+                            thead = `<tr>${thead}</tr>`;
+                        }
+                        tbody = `<tr>${tbody}</tr>`;
+                    });
+                    $('#results thead').html(thead);
+                    $('#results tbody').html(tbody);
+                }
+            });
         });
 
     </script>
