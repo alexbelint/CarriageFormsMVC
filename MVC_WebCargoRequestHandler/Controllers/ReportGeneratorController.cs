@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Web;
 using System.Web.Mvc;
 
@@ -20,16 +21,21 @@ namespace MVC_WebCargoRequestHandler.Controllers
         [HttpPost]
         public JsonResult GetResult(CargoForm model)
         {
+            var stringPropertyNamesAndValues = model.GetType()
+                .GetProperties()
+                .Where(pi => pi.GetGetMethod() != null && pi.GetValue((object)model) != null && pi.PropertyType == typeof(string))
+                .Select(pi => new
+                {
+                    Name = pi.Name,
+                    Value = pi.GetGetMethod().Invoke(model, null)
+                });
+
             db.Configuration.ProxyCreationEnabled = false;
 
             var results = db.CargoForms.AsQueryable();
-            if (model.Destination != null)
+            foreach (var obj in stringPropertyNamesAndValues)
             {
-                results = results.Where(x => x.Destination.Contains(model.Destination));
-            }
-            if (model.Customer != null)
-            {
-                results = results.Where(x => x.Customer.Contains(model.Customer));
+                results = results.Where($"{obj.Name}.Contains(@0)", obj.Value);
             }
             return Json(results.ToList());
         }

@@ -7,6 +7,10 @@
         <label for="destination">Пункт назначения</label>
         <input id="destination" />
     </div>
+    <div>
+        <label for="departure">Станция отправления</label>
+        <input id="departure" />
+    </div>
     <button id="getResult"></button>
     <table id="results">
         <thead>
@@ -18,9 +22,14 @@
 
 @section Scripts {
     <script type="text/javascript">
-
+        //TODO: populate entire set of inputs and construct JS payload
         $('#getResult').click(function () {
-            $.post('./ReportGenerator/GetResult', { 'Customer': $('#customer').val(), 'Destination': $('#destination').val() }, function (res) {
+            $.post('./ReportGenerator/GetResult',
+                {
+                    'Customer': $('#customer').val(),
+                    'Destination': $('#destination').val(),
+                    'Departure': $('#departure').val()
+                }, function (res) {
                 var bodyString = '';
                 res.forEach(function (record) {
                     bodyString += ('<tr><td>' + record.ReceiptDate + '</td><td>' + record.Customer + '</td><td>' + record.Destination + '</td>' + '</tr>');
