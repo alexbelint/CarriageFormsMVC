@@ -19,7 +19,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetFilteredResult(CargoForm model)
+        public ActionResult GetFilteredResult(CargoForm model)
         {
             var stringPropertyNamesAndValues = model.GetType()
                 .GetProperties()
@@ -37,8 +37,8 @@ namespace MVC_WebCargoRequestHandler.Controllers
             {
                 results = results.Where($"{obj.Name}.Contains(@0)", obj.Value);
             }
-            //В будущем заюзать автомаппер, чтобы вернуть только те данные, которые нужно отобразить на странице
-            return Json(results.ToList(), JsonRequestBehavior.AllowGet);
+
+            return PartialView("Results", results.ToList());
         }
     }
 }

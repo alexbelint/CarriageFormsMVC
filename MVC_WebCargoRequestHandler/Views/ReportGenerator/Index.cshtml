@@ -12,11 +12,9 @@
         <input name="departure" id="departure" />
     </div>
     <button id="getResult" type="button">Найти</button>
-    <table id="results">
-        <thead>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <div id="results">
+
+    </div>
 </form>
 
 @section Scripts {
@@ -33,28 +31,11 @@
         $('#getResult').click(function () {
             $.ajax({
                 type: 'GET',
-                dataType: 'json',
-                url: './ReportGenerator/GetFilteredResult',
+                dataType: 'html',
+                url: '/ReportGenerator/GetFilteredResult',
                 data: $('form').serialize(),
                 success: function (res, textStatus, jqXHR) {
-                    var thead = '';
-                    var headContent = '';
-                    var tbody = '';
-                    res.forEach(function (record, index) {
-                        for (var prop in record) {
-                            //заполняем шапку однократно на основании первой записи
-                            if (index === 0) {
-                                thead += `<th>${prop}</th>`
-                            }
-                            tbody += `<td>${record[prop]}</td>`
-                        }
-                        if (index === 0) {
-                            thead = `<tr>${thead}</tr>`;
-                        }
-                        tbody = `<tr>${tbody}</tr>`;
-                    });
-                    $('#results thead').html(thead);
-                    $('#results tbody').html(tbody);
+                    $("#results").html(res);
                 }
             });
         });
