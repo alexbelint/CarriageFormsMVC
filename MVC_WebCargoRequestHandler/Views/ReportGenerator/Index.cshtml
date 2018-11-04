@@ -1,15 +1,9 @@
 ﻿<form>
-    <div style="margin-bottom: 10px; margin-top: 20px">
-        <label for="customer">Заказчик</label>
-        <input name="customer" id="customer" />
+    <div style="margin-top: 20px; margin-bottom: 10px">
+        <span>Заказчик:</span><select class="filter-select" column="Customer" style="width: 200px"></select>
     </div>
-    <div>
-        <label for="destination">Пункт назначения</label>
-        <input name="destination" id="destination" />
-    </div>
-    <div>
-        <label for="departure">Станция отправления</label>
-        <input name="departure" id="departure" />
+    <div style="margin-top: 20px; margin-bottom: 10px">
+        <span>Место назначения:</span><select class="filter-select" column="Destination" style="width: 200px"></select>
     </div>
     <button id="getResult" type="button">Найти</button>
     <div id="results">
@@ -17,28 +11,68 @@
     </div>
 </form>
 
+
 @section Scripts {
     <script type="text/javascript">
+        $(document).ready(function () {
+            var selects = $('.filter-select').select2({
+                ajax: {
+                    type: 'POST',
+                    url: '/ReportGenerator/GetFilteredResult',
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.value,
+                                    id: item.value
+                                }
+                            })
+                        };
+                    },
+                    data: function (params) {
+                        var that = this;
+                        params.filters = JSON.parse(JSON.stringify(filters));
+                        var existingFilter = params.filters.find(function (filter) {
+                            return filter.column === $(that).attr('column');
+                        });
+                        if (existingFilter) {
+                            existingFilter.value = params.term;
+                            existingFilter.editing = true;
+                        } else {
+                            params.filters.push({ column: $(this).attr('column'), value: params.term, editing: true });
+                        }
+                        return {filters : params.filters};
+                    },
+                    dataType: 'json'
+                },
+                //minimumInputLength: 2
+            });
 
-        //небольшой кусочек кода, чтобы получать новые результаты после нажатия на Enter
-        $(document).keyup(function (e) {
-            //отлавливаем нажатие кнопки Enter
-            if (e.keyCode === 13) {
-                $('#getResult').click();
-            }
-        });
+            var filters = [];
 
-        $('#getResult').click(function () {
-            $.ajax({
-                type: 'GET',
-                dataType: 'html',
-                url: '/ReportGenerator/GetFilteredResult',
-                data: $('form').serialize(),
-                success: function (res, textStatus, jqXHR) {
-                    $("#results").html(res);
+            selects.on('select2:select', function (e) {
+                var that = this;
+                var existingFilter = filters.find(function (filter) {
+                    return filter.column === $(that).attr('column');
+                });
+                if (existingFilter) {
+                    existingFilter.value = $(this).val();
+                } else {
+                    filters.push({ column: $(this).attr('column'), value: $(this).val() });
                 }
             });
-        });
 
+            $('#getResult').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'html',
+                    url: '/ReportGenerator/GetFilteredResult',
+                    data: $('form').serialize(),
+                    success: function (res, textStatus, jqXHR) {
+                        $("#results").html(res);
+                    }
+                });
+            });
+        });
     </script>
 }

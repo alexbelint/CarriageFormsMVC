@@ -4,26 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @*<script type="text/javascript">
-            var spinnerVisible = false;
-            function showProgress() {
-                if (!spinnerVisible) {
-                    $("div#spinner").fadeIn("fast");
-                    spinnerVisible = true;
-                }
-            };
-            function hideProgress() {
-                if (spinnerVisible) {
-                    var spinner = $("div#spinner");
-                    spinner.stop();
-                    spinner.fadeOut("fast");
-                    spinnerVisible = false;
-                }
-            };
-        </script>*@
 
 </head>
 <body>
@@ -73,6 +55,7 @@
     <div class="preLoadingPage"></div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/select2")
     @RenderSection("scripts", required: false)
 </body>
 </html>
