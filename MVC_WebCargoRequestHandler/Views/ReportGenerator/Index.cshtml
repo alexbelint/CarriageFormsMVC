@@ -45,6 +45,8 @@
                     },
                     dataType: 'json'
                 },
+                allowClear: true,
+                placeholder: 'Введите фильтр'
                 //minimumInputLength: 2
             });
 
@@ -61,6 +63,14 @@
                     filters.push({ column: $(this).attr('column'), value: $(this).val() });
                 }
             });
+
+            selects.on('select2:unselect', function (e) {
+                for (var i = filters.length - 1; i >= 0; --i) {
+                    if (filters[i].column == $(this).attr('column')) {
+                        filters.splice(i, 1);
+                    }
+                }
+            })
 
             $('#getResult').click(function () {
                 $.ajax({
