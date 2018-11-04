@@ -66,7 +66,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
                 }
             }
             
-            var response = results.Select($"new ({filters.Single(x => x.Editing == true).Column} as value)");
+            var response = results.Select($"new ({filters.Single(x => x.Editing == true).Column} as value)").Distinct();
             return Json(response, JsonRequestBehavior.AllowGet);
         }
     }
