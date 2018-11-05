@@ -55,6 +55,7 @@ namespace MVC_WebCargoRequestHandler.Models
 
         [Required]
         [DataType(DataType.Password)]
+
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
@@ -65,11 +66,12 @@ namespace MVC_WebCargoRequestHandler.Models
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
+        [EmailAddress(ErrorMessage = "Недопустимый адрес электронной почты")]
         [Display(Name = "Почта")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Требуется ввести пароль")]
         [StringLength(100, ErrorMessage = "Пароль должен состоять как минимум из {2} символов в длину.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
