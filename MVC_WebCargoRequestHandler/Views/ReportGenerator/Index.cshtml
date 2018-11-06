@@ -76,10 +76,10 @@
 
             $('#getResult').click(function () {
                 $.ajax({
-                    type: 'GET',
+                    type: 'POST',
                     dataType: 'html',
-                    url: '/ReportGenerator/GetFilteredResult',
-                    data: $('form').serialize(),
+                    url: '/ReportGenerator/GetResultsPartialView',
+                    data: { filters : filters},
                     success: function (res, textStatus, jqXHR) {
                         $("#results").html(res);
                     }

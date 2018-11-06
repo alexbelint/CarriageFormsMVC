@@ -38,30 +38,25 @@ namespace MVC_WebCargoRequestHandler.Controllers
             return View();
         }
 
-        //[HttpGet]
-        //public ActionResult GetFilteredResult(CargoForm model)
-        //{
-        //    var stringPropertyNamesAndValues = model.GetType()
-        //        .GetProperties()
-        //        .Where(pi => pi.GetGetMethod() != null && pi.GetValue((object)model) != null && pi.PropertyType == typeof(string))
-        //        .Select(pi => new
-        //        {
-        //            Name = pi.Name,
-        //            Value = pi.GetGetMethod().Invoke(model, null)
-        //        });
+        [HttpPost]
+        public ActionResult GetResultsPartialView(List<Filter> filters)
+        {
+            var results = GetFilteredQueryable(filters);
 
-
-        //    var results = _db.CargoForms.AsQueryable();
-        //    foreach (var obj in stringPropertyNamesAndValues)
-        //    {
-        //        results = results.Where($"{obj.Name}.Contains(@0)", obj.Value);
-        //    }
-
-        //    return PartialView("Results", results.ToList());
-        //}
+            return PartialView("Results", results.ToList());
+        }
 
         [HttpPost]
         public ActionResult GetFilteredResult(List<Filter> filters)
+        {
+            var results = GetFilteredQueryable(filters);
+            
+            var response = results.Select($"new ({filters.Single(x => x.Editing == true).Column} as value)").Distinct();
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        private IQueryable<CargoForm> GetFilteredQueryable(IEnumerable<Filter> filters)
         {
             var results = _db.CargoForms.AsQueryable();
 
@@ -72,9 +67,8 @@ namespace MVC_WebCargoRequestHandler.Controllers
                     results = results.Where($"{filter.Column}.Contains(@0)", filter.Value ?? "");
                 }
             }
-            
-            var response = results.Select($"new ({filters.Single(x => x.Editing == true).Column} as value)").Distinct();
-            return Json(response, JsonRequestBehavior.AllowGet);
+
+            return results;
         }
         //[Authorize]
         //[HttpPost]
