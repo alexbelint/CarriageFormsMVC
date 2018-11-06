@@ -5,7 +5,9 @@
     <div style="margin-top: 20px; margin-bottom: 10px">
         <span>Место назначения:</span><select class="filter-select" column="Destination" style="width: 200px"></select>
     </div>
-    <button id="getResult" type="button">Найти</button>
+    @*<button id="getResult" type="button">Найти</button>*@
+    <input type="button" id="getResult" value="Найти" class="btn btn-primary" />
+    <input type="button" id="btnExport" value="Export" class="btn btn-success" />
     <div id="results">
 
     </div>
@@ -41,7 +43,7 @@
                         } else {
                             params.filters.push({ column: $(this).attr('column'), value: params.term, editing: true });
                         }
-                        return {filters : params.filters};
+                        return { filters: params.filters };
                     },
                     dataType: 'json'
                 },
@@ -84,5 +86,16 @@
                 });
             });
         });
+       
+        //$(document).ready(function () {
+
+        //    $('#btnExport').click(function () {
+
+        //        window.location = '/ExportInventory';
+
+        //    });
+        //});
+
     </script>
+
 }
