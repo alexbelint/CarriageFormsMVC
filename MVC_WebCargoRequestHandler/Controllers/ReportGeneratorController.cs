@@ -1,11 +1,13 @@
 ﻿using MVC_WebCargoRequestHandler.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -39,7 +41,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetResultsPartialView(List<Filter> filters)
+        public ActionResult GetResultsPartialView(IEnumerable<Filter> filters)
         {
             var results = GetFilteredQueryable(filters);
 
@@ -47,10 +49,10 @@ namespace MVC_WebCargoRequestHandler.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetFilteredResult(List<Filter> filters)
+        public ActionResult GetFilteredResult(IEnumerable<Filter> filters)
         {
             var results = GetFilteredQueryable(filters);
-            
+
             var response = results.Select($"new ({filters.Single(x => x.Editing == true).Column} as value)").Distinct();
 
             return Json(response, JsonRequestBehavior.AllowGet);
@@ -71,31 +73,38 @@ namespace MVC_WebCargoRequestHandler.Controllers
             return results;
         }
         //[Authorize]
-        //[HttpPost]
-        //public ActionResult ExportToExcel(CargoForm cargoForm)
-        //{
-        //    var cargoFormsSearchedList = new DataTable("customTestTable");
+        [HttpPost]
+        public FileContentResult ExportToExcel(IEnumerable<Filter> filters)
+        {
+            var results = GetFilteredQueryable(filters).ToList();
+            var propertyNames = new string[] { "ReceiptDate", "Customer" };
+            var header = GetCsvHeader(typeof(CargoForm), propertyNames);
 
-        //    var grid = new GridView();
-        //    grid.DataSource = cargoFormsSearchedList;
-        //    grid.DataBind();
+            return File(new UTF8Encoding().GetBytes(header), "application/octet-stream", "CustomReport.csv");
+        }
 
-        //    Response.ClearContent();
-        //    Response.Buffer = true;
-        //    Response.AddHeader("content-disposition", "attachment; filename=CargoForms Report.xls");
-        //    Response.ContentType = "application/ms-excel";
+        private string GetCsvHeader(Type type, string[] propertyNames)
+        {
+            var displayNames = new List<string>();
+            foreach(var propertyName in propertyNames)
+            {
+              displayNames.Add(GetDisplayNameForProperty(type, propertyName));
+            }
+            return String.Join(",", displayNames.ToArray());
+        }
 
-        //    Response.Charset = "";
-        //    StringWriter sw = new StringWriter();
-        //    HtmlTextWriter htw = new HtmlTextWriter(sw);
+        private string GetDisplayNameForProperty(Type type, string propertyName)
+        {
+            string displayName = null;
+            var displayAttribute = type.GetProperty(propertyName).GetCustomAttribute(typeof(DisplayAttribute)) as DisplayAttribute;
+            if (displayAttribute != null)
+            {
+                displayName = displayAttribute.Name;
+            }
 
-        //    grid.RenderControl(htw);
+            return displayName;
+        }
 
-        //    Response.Output.Write(sw.ToString());
-        //    Response.Flush();
-        //    Response.End();
 
-        //    return View(cargoForm);
-        //}
     }
 }

@@ -85,17 +85,18 @@
                     }
                 });
             });
+
+            $('#btnExport').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/ReportGenerator/ExportToExcel',
+                    data: { filters: filters },
+                    success: function (res, textStatus, jqXHR) {
+                        console.log('done!');
+                    }
+                });
+            });
         });
-       
-        //$(document).ready(function () {
-
-        //    $('#btnExport').click(function () {
-
-        //        window.location = '/ExportInventory';
-
-        //    });
-        //});
-
     </script>
 
 }

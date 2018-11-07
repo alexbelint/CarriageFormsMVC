@@ -26,7 +26,7 @@
 <table class="table table-hover testColumnWidth">
     <tr>
         <th>
-            @Html.ActionLink("Дата пост. заявки", "Index", new { sortOrder = ViewBag.ReceiptDateSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].ReceiptDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.ReceiptDateSortParm })
         </th>
         <th>
             @Html.ActionLink("Способ связи", "Index", new { sortOrder = ViewBag.CommunicationIDSortParm })
