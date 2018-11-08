@@ -96,8 +96,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         private string GetDisplayNameForProperty(Type type, string propertyName)
         {
             string displayName = null;
-            var displayAttribute = type.GetProperty(propertyName).GetCustomAttribute(typeof(DisplayAttribute)) as DisplayAttribute;
-            if (displayAttribute != null)
+            if (type.GetProperty(propertyName).GetCustomAttribute(typeof(DisplayAttribute)) is DisplayAttribute displayAttribute)
             {
                 displayName = displayAttribute.Name;
             }

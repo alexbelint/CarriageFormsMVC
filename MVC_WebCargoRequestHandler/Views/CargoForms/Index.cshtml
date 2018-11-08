@@ -29,40 +29,40 @@
             @Html.ActionLink(Html.DisplayNameFor(model => model[0].ReceiptDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.ReceiptDateSortParm })
         </th>
         <th>
-            @Html.ActionLink("Способ связи", "Index", new { sortOrder = ViewBag.CommunicationIDSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].CommunicationMethod.CommunicationName).ToHtmlString(), "Index", new { sortOrder = ViewBag.CommunicationIDSortParm })
         </th>
         <th>
-            @Html.ActionLink("Заказчик", "Index", new { sortOrder = ViewBag.CustomerSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].Customer).ToHtmlString(), "Index", new { sortOrder = ViewBag.CustomerSortParm })
         </th>
         <th>
-            @Html.ActionLink("Описание груза", "Index", new { sortOrder = ViewBag.CargoDescriptionSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].CargoDescription).ToHtmlString(), "Index", new { sortOrder = ViewBag.CargoDescriptionSortParm })
         </th>
         <th>
-            @Html.ActionLink("ГНГ/ЕТСНГ", "Index", new { sortOrder = ViewBag.CargoCodeSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].CargoCode).ToHtmlString(), "Index", new { sortOrder = ViewBag.CargoCodeSortParm })
         </th>
         <th>
-            @Html.ActionLink("Станция отправления", "Index", new { sortOrder = ViewBag.DepartureSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].Departure).ToHtmlString(), "Index", new { sortOrder = ViewBag.DepartureSortParm })
         </th>
         <th>
-            @Html.ActionLink("Место назначения", "Index", new { sortOrder = ViewBag.DestinationSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].Destination).ToHtmlString(), "Index", new { sortOrder = ViewBag.DestinationSortParm })
         </th>
         <th>
-            @Html.ActionLink("Направление", "Index", new { sortOrder = ViewBag.DirectionSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].Direction.DirectionName).ToHtmlString(), "Index", new { sortOrder = ViewBag.DirectionSortParm })
         </th>
         <th>
-            @Html.ActionLink("Тип ПС", "Index", new { sortOrder = ViewBag.RollingStockNameSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].RollingStockType.RollingStockName).ToHtmlString(), "Index", new { sortOrder = ViewBag.RollingStockNameSortParm })
         </th>
         <th>
-            @Html.ActionLink("Стоимость", "Index", new { sortOrder = ViewBag.CostSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].Cost).ToHtmlString(), "Index", new { sortOrder = ViewBag.CostSortParm })
         </th>
         <th>
-            @Html.ActionLink("Валюта", "Index", new { sortOrder = ViewBag.CurrencySortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].Currencies.CurrencyName).ToHtmlString(), "Index", new { sortOrder = ViewBag.CurrencySortParm })
         </th>
         <th>
-            @Html.ActionLink("Вид сообщения", "Index", new { sortOrder = ViewBag.TrafficClassificationSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].TrafficClassification.TrafficClassificationName).ToHtmlString(), "Index", new { sortOrder = ViewBag.TrafficClassificationSortParm })
         </th>
         <th>
-            @Html.ActionLink("Дата ответа", "Index", new { sortOrder = ViewBag.ResponseDateSortParm })
+            @Html.ActionLink(Html.DisplayNameFor(model => model[0].ReceiptDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.ResponseDateSortParm })
         </th>
         <th></th>
     </tr>
