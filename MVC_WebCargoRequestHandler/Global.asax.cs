@@ -16,6 +16,8 @@ namespace MVC_WebCargoRequestHandler
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ClientDataTypeModelValidatorProvider.ResourceClassKey = "Messages";
+            DefaultModelBinder.ResourceClassKey = "Messages";
         }
     }
 }

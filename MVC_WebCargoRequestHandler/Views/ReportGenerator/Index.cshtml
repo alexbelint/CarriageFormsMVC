@@ -1,0 +1,111 @@
+﻿<form>
+    <div style="margin-top: 20px; margin-bottom: 10px">
+        <span>Заказчик: </span><select class="filter-select" column="Customer" style="width: 200px"></select>
+    </div>
+    <div style="margin-top: 20px; margin-bottom: 10px">
+        <span>Станция отправления: </span><select class="filter-select" column="Departure" style="width: 200px"></select>
+    </div>
+    <div style="margin-top: 20px; margin-bottom: 10px">
+        <span>Станция назначения: </span><select class="filter-select" column="Destination" style="width: 200px"></select>
+    </div>
+    <div style="margin-top: 20px; margin-bottom: 10px">
+        <span>ГНГ/ЕТСНГ: </span><select class="filter-select" column="CargoCode" style="width: 200px"></select>
+    </div>
+    <div style="margin-top: 20px; margin-bottom: 10px">
+        <span>Описание груза: </span><select class="filter-select" column="CargoDescription" style="width: 200px"></select>
+    </div>
+    <input type="button" id="getResult" value="Найти" class="btn btn-primary" />
+    <input type="button" id="btnExport" value="Export" class="btn btn-success" />
+    <div id="results">
+
+    </div>
+</form>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var selects = $('.filter-select').select2({
+                ajax: {
+                    type: 'POST',
+                    url: '/ReportGenerator/GetFilteredResult',
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.value,
+                                    id: item.value
+                                }
+                            })
+                        };
+                    },
+                    data: function (params) {
+                        var that = this;
+                        params.filters = JSON.parse(JSON.stringify(filters));
+                        var existingFilter = params.filters.find(function (filter) {
+                            return filter.column === $(that).attr('column');
+                        });
+                        if (existingFilter) {
+                            existingFilter.value = params.term;
+                            existingFilter.editing = true;
+                        } else {
+                            params.filters.push({ column: $(this).attr('column'), value: params.term, editing: true });
+                        }
+                        return { filters: params.filters };
+                    },
+                    dataType: 'json'
+                },
+                allowClear: true,
+                placeholder: 'Введите фильтр',
+                language: 'ru',
+                minimumInputLength: 2
+            });
+
+            var filters = [];
+
+            selects.on('select2:select', function (e) {
+                var that = this;
+                var existingFilter = filters.find(function (filter) {
+                    return filter.column === $(that).attr('column');
+                });
+                if (existingFilter) {
+                    existingFilter.value = $(this).val();
+                } else {
+                    filters.push({ column: $(this).attr('column'), value: $(this).val() });
+                }
+            });
+
+            selects.on('select2:unselect', function (e) {
+                for (var i = filters.length - 1; i >= 0; --i) {
+                    if (filters[i].column == $(this).attr('column')) {
+                        filters.splice(i, 1);
+                    }
+                }
+            })
+
+            $('#getResult').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'html',
+                    url: '/ReportGenerator/GetResultsPartialView',
+                    data: { filters : filters},
+                    success: function (res, textStatus, jqXHR) {
+                        $("#results").html(res);
+                    }
+                });
+            });
+
+            $('#btnExport').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/ReportGenerator/ExportToExcel',
+                    data: { filters: filters },
+                    success: function (res, textStatus, jqXHR) {
+                        console.log('done!');
+                    }
+                });
+            });
+        });
+    </script>
+
+}
