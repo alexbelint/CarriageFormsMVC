@@ -1,18 +1,18 @@
 ﻿<form>
     <div style="margin-top: 20px; margin-bottom: 10px">
-        <span>Заказчик: </span><select class="filter-select" column="Customer" style="width: 200px"></select>
+        <select class="filter-select" column="Customer" style="width: 200px"></select> <span>Заказчик</span>
     </div>
     <div style="margin-top: 20px; margin-bottom: 10px">
-        <span>Станция отправления: </span><select class="filter-select" column="Departure" style="width: 200px"></select>
+        <select class="filter-select" column="Departure" style="width: 200px"></select> <span>Станция отправления </span>
     </div>
     <div style="margin-top: 20px; margin-bottom: 10px">
-        <span>Станция назначения: </span><select class="filter-select" column="Destination" style="width: 200px"></select>
+        <select class="filter-select" column="Destination" style="width: 200px"></select>  <span>Станция назначения </span>
     </div>
     <div style="margin-top: 20px; margin-bottom: 10px">
-        <span>ГНГ/ЕТСНГ: </span><select class="filter-select" column="CargoCode" style="width: 200px"></select>
+        <select class="filter-select" column="CargoCode" style="width: 200px"></select>   <span>ГНГ/ЕТСНГ </span>
     </div>
-    <div style="margin-top: 20px; margin-bottom: 10px">
-        <span>Описание груза: </span><select class="filter-select" column="CargoDescription" style="width: 200px"></select>
+    <div style="margin-top: 20px; margin-bottom: 20px">
+        <select class="filter-select" column="CargoDescription" style="width: 200px"></select> <span>Описание груза </span>
     </div>
     <input type="button" id="getResult" value="Найти" class="btn btn-primary" />
     <input type="button" id="btnExport" value="Export" class="btn btn-success" />
@@ -57,13 +57,23 @@
                 },
                 allowClear: true,
                 placeholder: 'Введите фильтр',
-                language: 'ru',
-                minimumInputLength: 2
+                minimumInputLength: 2,
+                language: {
+                    inputTooShort: function (args) {
+                        var remainingChars = args.minimum - args.input.length;
+
+                        var message = 'Пожалуйста введите ' + remainingChars + ' или более символа';
+
+                        return message;
+                    }
+                }
+               
             });
 
             var filters = [];
 
             selects.on('select2:select', function (e) {
+                
                 var that = this;
                 var existingFilter = filters.find(function (filter) {
                     return filter.column === $(that).attr('column');
@@ -106,6 +116,17 @@
                 });
             });
         });
+        //function openNav() {
+        //    document.getElementById("mySidenav").style.width = "250px";
+        //    document.getElementById("main").style.marginLeft = "250px";
+        //    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        //}
+
+        //function closeNav() {
+        //    document.getElementById("mySidenav").style.width = "0";
+        //    document.getElementById("main").style.marginLeft = "0";
+        //    document.body.style.backgroundColor = "white";
+        //}
     </script>
 
 }
