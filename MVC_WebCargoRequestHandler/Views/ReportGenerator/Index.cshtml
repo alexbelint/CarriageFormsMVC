@@ -1,23 +1,27 @@
 ﻿<form>
-    <div style="margin-top: 20px; margin-bottom: 10px">
-        <select class="filter-select" column="Customer" style="width: 200px"></select> <span>Заказчик</span>
+    <div style="margin-top: 20px;">
+        <p> Заказчик:</p>
+        <select class="filter-select" column="Customer" style="width: 200px"></select> @*<span>Заказчик</span>*@
     </div>
-    <div style="margin-top: 20px; margin-bottom: 10px">
-        <select class="filter-select" column="Departure" style="width: 200px"></select> <span>Станция отправления </span>
+    <div style="margin-top: 10px; ">
+        <p> Станция отправления:</p>
+        <select class="filter-select" column="Departure" style="width: 200px"></select> @*<span>Станция отправления </span>*@
     </div>
-    <div style="margin-top: 20px; margin-bottom: 10px">
-        <select class="filter-select" column="Destination" style="width: 200px"></select>  <span>Станция назначения </span>
+    <div style="margin-top: 10px; ">
+        <p> Станция назначения:</p>
+        <select class="filter-select" column="Destination" style="width: 200px"></select>  @*<span>Станция назначения </span>*@
     </div>
-    <div style="margin-top: 20px; margin-bottom: 10px">
-        <select class="filter-select" column="CargoCode" style="width: 200px"></select>   <span>ГНГ/ЕТСНГ </span>
+    <div style="margin-top: 10px; ">
+        <p> ГНГ/ЕТСНГ:</p>
+        <select class="filter-select" column="CargoCode" style="width: 200px"></select>   @*<span>ГНГ/ЕТСНГ </span>*@
     </div>
-    <div style="margin-top: 20px; margin-bottom: 20px">
-        <select class="filter-select" column="CargoDescription" style="width: 200px"></select> <span>Описание груза </span>
+    <div style="margin-top: 10px; margin-bottom: 20px">
+        <p>Описание груза:</p>
+        <select class="filter-select" column="CargoDescription" style="width: 200px"></select> @*<span>Описание груза </span>*@
     </div>
     <input type="button" id="getResult" value="Найти" class="btn btn-primary" />
-    <input type="button" id="btnExport" value="Export" class="btn btn-success" />
-    <div id="results">
-
+    <br />
+    <div id="results"> 
     </div>
 </form>
 
@@ -61,13 +65,19 @@
                 language: {
                     inputTooShort: function (args) {
                         var remainingChars = args.minimum - args.input.length;
-
-                        var message = 'Пожалуйста введите ' + remainingChars + ' или более символа';
-
+                        var message = 'Пожалуйста введите ' + remainingChars + ' или более символов';
                         return message;
+                    },
+                    noResults: function () {
+                        return 'Ничего не найдено';
+                    },
+                    loadingMore: function () {
+                        return 'Подгружаем результаты...';
+                    },
+                    searching: function () {
+                        return 'Ищем в базе…';
                     }
                 }
-               
             });
 
             var filters = [];
