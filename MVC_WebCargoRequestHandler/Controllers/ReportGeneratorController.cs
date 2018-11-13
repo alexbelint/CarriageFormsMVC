@@ -32,7 +32,6 @@ namespace MVC_WebCargoRequestHandler.Controllers
         public ReportGeneratorController()
         {
             _db = new ApplicationDbContext();
-            _db.Configuration.ProxyCreationEnabled = false;
         }
         // GET: ReportGenerator
         public ActionResult Index()
@@ -74,14 +73,24 @@ namespace MVC_WebCargoRequestHandler.Controllers
         }
         //[Authorize]
         [HttpPost]
-        public FileContentResult ExportToExcel(IEnumerable<Filter> filters)
+        public JsonResult ExportToExcel(IEnumerable<Filter> filters)
         {
             var results = GetFilteredQueryable(filters).ToList();
             var propertyNames = new string[] { "ReceiptDate", "Customer" };
             var header = GetCsvHeader(typeof(CargoForm), propertyNames);
-
-            return File(new UTF8Encoding().GetBytes(header), "application/octet-stream", "CustomReport.csv");
+            var guid = Guid.NewGuid().ToString();
+            TempData[guid] = new UTF8Encoding().GetBytes(header);
+            return Json(new { guid });
         }
+
+        //[Authorize]
+        [HttpGet]
+        public FileResult DownloadExcelFile(string guid)
+        {
+            byte[] byteArray = (byte[]) TempData[guid];
+            return File(Encoding.UTF8.GetPreamble().Concat(byteArray).ToArray(), "text/csv", "CustomReport.csv");
+        }
+
 
         private string GetCsvHeader(Type type, string[] propertyNames)
         {

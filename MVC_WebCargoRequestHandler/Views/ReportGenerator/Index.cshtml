@@ -128,14 +128,13 @@
                     }
                 });
             });
-
-            $('#btnExport').click(function () {
+            $("#results").on("click", "#btnExport", function (event) {
                 $.ajax({
                     type: 'POST',
                     url: '/ReportGenerator/ExportToExcel',
                     data: { filters: filters },
                     success: function (res, textStatus, jqXHR) {
-                        console.log('done!');
+                        window.location = '/ReportGenerator/DownloadExcelFile?guid=' + res.guid; 
                     }
                 });
             });
