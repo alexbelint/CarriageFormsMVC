@@ -15,6 +15,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Data.Entity;
 
 namespace MVC_WebCargoRequestHandler.Controllers
 {
@@ -112,7 +113,5 @@ namespace MVC_WebCargoRequestHandler.Controllers
 
             return displayName;
         }
-
-
     }
 }

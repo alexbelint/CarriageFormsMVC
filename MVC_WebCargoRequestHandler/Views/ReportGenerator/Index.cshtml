@@ -31,12 +31,11 @@
         <p> Валюта:</p>
         <select class="filter-select" column="Currencies.CurrencyName" style="width: 200px"></select>
     </div>
-
-
     <input style="margin-top: 20px;" type="button" id="getResult" value="Найти" class="btn btn-primary" />
     <br />
     <div id="results">
     </div>
+
 </form>
 
 
@@ -93,11 +92,8 @@
                     }
                 }
             });
-
             var filters = [];
-
             selects.on('select2:select', function (e) {
-                
                 var that = this;
                 var existingFilter = filters.find(function (filter) {
                     return filter.column === $(that).attr('column');
@@ -108,7 +104,6 @@
                     filters.push({ column: $(this).attr('column'), value: $(this).val() });
                 }
             });
-
             selects.on('select2:unselect', function (e) {
                 for (var i = filters.length - 1; i >= 0; --i) {
                     if (filters[i].column == $(this).attr('column')) {
@@ -116,13 +111,12 @@
                     }
                 }
             })
-
             $('#getResult').click(function () {
                 $.ajax({
                     type: 'POST',
                     dataType: 'html',
                     url: '/ReportGenerator/GetResultsPartialView',
-                    data: { filters : filters},
+                    data: { filters: filters },
                     success: function (res, textStatus, jqXHR) {
                         $("#results").html(res);
                     }
@@ -134,22 +128,11 @@
                     url: '/ReportGenerator/ExportToExcel',
                     data: { filters: filters },
                     success: function (res, textStatus, jqXHR) {
-                        window.location = '/ReportGenerator/DownloadExcelFile?guid=' + res.guid; 
+                        window.location = '/ReportGenerator/DownloadExcelFile?guid=' + res.guid;
                     }
                 });
             });
         });
-        //function openNav() {
-        //    document.getElementById("mySidenav").style.width = "250px";
-        //    document.getElementById("main").style.marginLeft = "250px";
-        //    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-        //}
-
-        //function closeNav() {
-        //    document.getElementById("mySidenav").style.width = "0";
-        //    document.getElementById("main").style.marginLeft = "0";
-        //    document.body.style.backgroundColor = "white";
-        //}
     </script>
-
 }
+
