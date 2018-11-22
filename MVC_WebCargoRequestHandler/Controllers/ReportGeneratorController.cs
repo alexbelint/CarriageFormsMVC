@@ -16,6 +16,7 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Data.Entity;
+using MVC_WebCargoRequestHandler.ViewModels;
 
 namespace MVC_WebCargoRequestHandler.Controllers
 {
@@ -41,13 +42,21 @@ namespace MVC_WebCargoRequestHandler.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetResultsPartialView(IEnumerable<Filter> filters)
+        public ActionResult GetResultsPartialView(IEnumerable<Filter> filters/*, DateTime? start, DateTime? end*/)
         {
-            var results = GetFilteredQueryable(filters);
+          
+            //ViewBag.start = start;
+            //ViewBag.end = end;
 
+            //SearchViewModel model = new SearchViewModel
+            //{
+            //    StartDate = start,
+            //    EndDate = end 
+            //}; 
+            //.Where(x => x.ResponseDate > start && x.ResponseDate < end).ToList()
+            var results = GetFilteredQueryable(filters);
             return PartialView("Results", results.ToList());
         }
-
         [HttpPost]
         public ActionResult GetFilteredResult(IEnumerable<Filter> filters)
         {

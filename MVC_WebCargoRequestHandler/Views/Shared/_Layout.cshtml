@@ -16,7 +16,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @*@Html.ActionLink("CargoRequestHandler", "Index", "CargoForms", new { area = "" }, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -44,7 +43,7 @@
         </div>
     </div>
     <div class="container body-content">
-        
+
         @RenderBody()
         <br />
         <hr />
@@ -56,6 +55,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/select2")
+    @Scripts.Render("~/bundles/jquery-ui") 
     @RenderSection("scripts", required: false)
 </body>
 </html>

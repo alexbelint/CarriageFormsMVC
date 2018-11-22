@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MVC_WebCargoRequestHandler.Models;
+using MVC_WebCargoRequestHandler.ViewModels;
 using PagedList;
 
 namespace MVC_WebCargoRequestHandler.Controllers
@@ -19,7 +20,13 @@ namespace MVC_WebCargoRequestHandler.Controllers
         // GET: CargoForms
         public ActionResult Index(string sortOrder,string currentFilter, string searchString, int? page)
         {
-            var cargoForms = db.CargoForms.Include(c => c.CommunicationMethod).Include(c => c.Direction).Include(c => c.Residency).Include(c => c.RollingStockType).Include(c => c.TrafficClassification).Include(c => c.Currencies);
+            var cargoForms = db.CargoForms.Include(c => c.CommunicationMethod)
+                                          .Include(c => c.Direction)
+                                          .Include(c => c.Residency)
+                                          .Include(c => c.RollingStockType)
+                                          .Include(c => c.TrafficClassification)
+                                          .Include(c => c.Currencies);
+    
             #region sorting
             ViewBag.CommunicationIDSortParm = String.IsNullOrEmpty(sortOrder) ? "CommunicationID" : "";
             ViewBag.CustomerSortParm = sortOrder == "Customer" ? "Customer_desc" : "Customer";
@@ -143,6 +150,8 @@ namespace MVC_WebCargoRequestHandler.Controllers
             }
             int pageSize = 12;
             int pageNumber = (page ?? 1);
+           
+
             return View(cargoForms.ToPagedList(pageNumber, pageSize));
 
         }

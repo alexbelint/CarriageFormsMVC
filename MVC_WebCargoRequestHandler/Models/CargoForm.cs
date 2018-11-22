@@ -13,7 +13,7 @@ namespace MVC_WebCargoRequestHandler.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, HtmlEncode = false)]
         [Display(Name = "Дата пост. заявки")]
-        public string ReceiptDate { get; set; } //Дата получения
+        public DateTime? ReceiptDate { get; set; } //Дата получения
 
         public int CommunicationID { get; set; }
         public virtual CommunicationMethod CommunicationMethod { get; set; }//Способ связи: звонок/email/skype
@@ -47,7 +47,7 @@ namespace MVC_WebCargoRequestHandler.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, HtmlEncode = false)]
         [Display(Name = "Дата ответа")]
-        public string ResponseDate { get; set; } //Дата ответа
+        public DateTime? ResponseDate { get; set; } //Дата ответа
 
         [Display(Name = "Примечание")]
         public string Note { get; set; } //Примечание

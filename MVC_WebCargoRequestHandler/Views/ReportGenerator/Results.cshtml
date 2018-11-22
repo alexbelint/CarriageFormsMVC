@@ -1,97 +1,6 @@
 ﻿@model IEnumerable<MVC_WebCargoRequestHandler.Models.CargoForm>
 <br />
 
-@*<table class="table table-hover">
-        <tr>
-            <th>
-                Дата пост. заявки
-            </th>
-            <th>
-                Способ связи
-            </th>
-            <th>
-                Заказчик
-            </th>
-            <th>
-                Описание груза
-            </th>
-            <th>
-                ГНГ/ЕТСНГ
-            </th>
-            <th>
-                Станция отправления
-            </th>
-            <th>
-                Место назначения
-            </th>
-            <th>
-                Направление
-            </th>
-            <th>
-                Тип ПС
-            </th>
-            <th>
-                Стоимость
-            </th>
-            <th>
-                Валюта
-            </th>
-            <th>
-                Вид сообщения
-            </th>
-            <th>
-                Дата ответа
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReceiptDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CommunicationMethod.CommunicationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Customer)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CargoDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CargoCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Departure)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Destination)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Direction.DirectionName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RollingStockType.RollingStockName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cost)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Currencies.CurrencyName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TrafficClassification.TrafficClassificationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ResponseDate)
-                </td>
-            </tr>
-        }
-
-    </table>
-
-    <input type="button" id="btnExport" value="Экспорт в csv" class="btn btn-success" />*@
 <br />
 <div class="container">
     <table class="table table-hover" id="headerTable">
@@ -207,7 +116,7 @@
         }
 
         tab_text = tab_text + "</table>";
-        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // removes input params
 
         var ua = window.navigator.userAgent;
         var msie = ua.indexOf("MSIE ");
