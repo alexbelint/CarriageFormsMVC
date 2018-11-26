@@ -54,8 +54,8 @@ namespace MVC_WebCargoRequestHandler.Controllers
             //{
             //    cargoforms = cargoforms.Where(x => x.ReceiptDate < enddate.Value);
             //}
-
-            var results = (GetFilteredQueryable(filters)).Where(x=> startdate > x.ResponseDate && x.ResponseDate < enddate);
+            
+            var results = (GetFilteredQueryable(filters)).Where(x=> x.ReceiptDate > startdate && x.ReceiptDate < enddate);
             return PartialView("Results", results.ToList());
         }
         [HttpPost]

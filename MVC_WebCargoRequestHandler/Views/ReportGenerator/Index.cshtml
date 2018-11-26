@@ -5,13 +5,13 @@
             <div class="form-group form-group-sm">
                 <div class="col-md-8">
                     <p> Период с:</p>
-                    @Html.TextBox("startdate", "Выберите дату", "ReportGenerator", new { @class = "form-control date-picker", @style = "width: 200px" })
+                    @Html.TextBox("startdate", "Выберите дату", new { @class = "form-control date-picker", @style = "width: 200px", @id = "startdate" })
                 </div>
             </div>
             <div class="form-group form-group-sm">
                 <div class="col-md-8">
                     <p> Период по:</p>
-                    @Html.TextBox("enddate", null, new { @class = "form-control date-picker", @style = "width: 200px" })
+                    @Html.TextBox("enddate", null, new { @class = "form-control date-picker", @style = "width: 200px", @id = "enddate" })
                 </div>
             </div>
         </div>
@@ -132,7 +132,7 @@
                     type: 'POST',
                     dataType: 'html',
                     url: '/ReportGenerator/GetResultsPartialView',
-                    data: { filters: filters },
+                    data: { filters: filters, startdate: $("#startdate").datepicker('getDate').toISOString(), enddate: $("#enddate").datepicker('getDate').toISOString() },
                     success: function (res, textStatus, jqXHR) {
                         $("#results").html(res);
                     }
@@ -162,8 +162,7 @@
                 dateFormat: 'dd/mm/yy' // set format date
             };
             $.datepicker.setDefaults($.datepicker.regional['rus']);
-        })
-
+        });
     </script>
 }
 
