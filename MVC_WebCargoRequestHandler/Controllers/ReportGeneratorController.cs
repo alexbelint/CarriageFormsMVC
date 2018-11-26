@@ -16,7 +16,6 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Data.Entity;
-using MVC_WebCargoRequestHandler.ViewModels;
 
 namespace MVC_WebCargoRequestHandler.Controllers
 {
@@ -42,19 +41,21 @@ namespace MVC_WebCargoRequestHandler.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetResultsPartialView(IEnumerable<Filter> filters/*, DateTime? start, DateTime? end*/)
+        public ActionResult GetResultsPartialView(IEnumerable<Filter> filters, DateTime? startdate, DateTime? enddate)
         {
-          
-            //ViewBag.start = start;
-            //ViewBag.end = end;
-
-            //SearchViewModel model = new SearchViewModel
+            ViewBag.startdate = startdate;
+            ViewBag.enddate = enddate;
+            //IQueryable<CargoForm> cargoforms = _db.CargoForms;
+            //if (startdate.HasValue)
             //{
-            //    StartDate = start,
-            //    EndDate = end 
-            //}; 
-            //.Where(x => x.ResponseDate > start && x.ResponseDate < end).ToList()
-            var results = GetFilteredQueryable(filters);
+            //    cargoforms = cargoforms.Where(x => x.ReceiptDate > startdate.Value);
+            //}
+            //if (enddate.HasValue)
+            //{
+            //    cargoforms = cargoforms.Where(x => x.ReceiptDate < enddate.Value);
+            //}
+
+            var results = (GetFilteredQueryable(filters)).Where(x=> startdate > x.ResponseDate && x.ResponseDate < enddate);
             return PartialView("Results", results.ToList());
         }
         [HttpPost]
@@ -82,45 +83,45 @@ namespace MVC_WebCargoRequestHandler.Controllers
             return results;
         }
         //[Authorize]
-        [HttpPost]
-        public JsonResult ExportToExcel(IEnumerable<Filter> filters)
-        {
-            var results = GetFilteredQueryable(filters).ToList();
-            var propertyNames = new string[] { "ReceiptDate", "Customer" };
-            var header = GetCsvHeader(typeof(CargoForm), propertyNames);
-            var guid = Guid.NewGuid().ToString();
-            TempData[guid] = new UTF8Encoding().GetBytes(header);
-            return Json(new { guid });
-        }
+    //    [HttpPost]
+    //    public JsonResult ExportToExcel(IEnumerable<Filter> filters)
+    //    {
+    //        var results = GetFilteredQueryable(filters).ToList();
+    //        var propertyNames = new string[] { "ReceiptDate", "Customer" };
+    //        var header = GetCsvHeader(typeof(CargoForm), propertyNames);
+    //        var guid = Guid.NewGuid().ToString();
+    //        TempData[guid] = new UTF8Encoding().GetBytes(header);
+    //        return Json(new { guid });
+    //    }
 
-        //[Authorize]
-        [HttpGet]
-        public FileResult DownloadExcelFile(string guid)
-        {
-            byte[] byteArray = (byte[]) TempData[guid];
-            return File(Encoding.UTF8.GetPreamble().Concat(byteArray).ToArray(), "text/csv", "CustomReport.csv");
-        }
+    //    //[Authorize]
+    //    [HttpGet]
+    //    public FileResult DownloadExcelFile(string guid)
+    //    {
+    //        byte[] byteArray = (byte[]) TempData[guid];
+    //        return File(Encoding.UTF8.GetPreamble().Concat(byteArray).ToArray(), "text/csv", "CustomReport.csv");
+    //    }
 
 
-        private string GetCsvHeader(Type type, string[] propertyNames)
-        {
-            var displayNames = new List<string>();
-            foreach(var propertyName in propertyNames)
-            {
-              displayNames.Add(GetDisplayNameForProperty(type, propertyName));
-            }
-            return String.Join(",", displayNames.ToArray());
-        }
+    //    private string GetCsvHeader(Type type, string[] propertyNames)
+    //    {
+    //        var displayNames = new List<string>();
+    //        foreach(var propertyName in propertyNames)
+    //        {
+    //          displayNames.Add(GetDisplayNameForProperty(type, propertyName));
+    //        }
+    //        return String.Join(",", displayNames.ToArray());
+    //    }
 
-        private string GetDisplayNameForProperty(Type type, string propertyName)
-        {
-            string displayName = null;
-            if (type.GetProperty(propertyName).GetCustomAttribute(typeof(DisplayAttribute)) is DisplayAttribute displayAttribute)
-            {
-                displayName = displayAttribute.Name;
-            }
+    //    private string GetDisplayNameForProperty(Type type, string propertyName)
+    //    {
+    //        string displayName = null;
+    //        if (type.GetProperty(propertyName).GetCustomAttribute(typeof(DisplayAttribute)) is DisplayAttribute displayAttribute)
+    //        {
+    //            displayName = displayAttribute.Name;
+    //        }
 
-            return displayName;
-        }
+    //        return displayName;
+    //    }
     }
 }

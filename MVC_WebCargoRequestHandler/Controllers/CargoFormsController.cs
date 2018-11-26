@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MVC_WebCargoRequestHandler.Models;
-using MVC_WebCargoRequestHandler.ViewModels;
 using PagedList;
 
 namespace MVC_WebCargoRequestHandler.Controllers
@@ -141,7 +140,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 cargoForms = cargoForms.Where(s => s.Customer.Contains(searchString)
-                                       || s.CommunicationMethod.CommunicationName.Contains(searchString));
+                                                || s.CommunicationMethod.CommunicationName.Contains(searchString));
             }
             #endregion
             if (Request.HttpMethod != "GET")
