@@ -5,7 +5,7 @@
             <div class="form-group form-group-sm">
                 <div class="col-md-8">
                     <p> Период с:</p>
-                    @Html.TextBox("startdate", "Выберите дату", new { @class = "form-control date-picker", @style = "width: 200px", @id = "startdate" })
+                    @Html.TextBox("startdate", null, new { @class = "form-control date-picker", @style = "width: 200px", @id = "startdate" })
                 </div>
             </div>
             <div class="form-group form-group-sm">
@@ -132,7 +132,7 @@
                     type: 'POST',
                     dataType: 'html',
                     url: '/ReportGenerator/GetResultsPartialView',
-                    data: { filters: filters, startdate: $("#startdate").datepicker('getDate').toISOString(), enddate: $("#enddate").datepicker('getDate').toISOString() },
+                    data: { filters: filters, startdate: getDatepickerDate("#startdate"), enddate: getDatepickerDate("#enddate") },
                     success: function (res, textStatus, jqXHR) {
                         $("#results").html(res);
                     }
@@ -148,6 +148,14 @@
                     }
                 });
             });
+
+            function getDatepickerDate(id) {
+                var date = $(id).datepicker('getDate');
+                if (date) {
+                    return date.toISOString();
+                }
+                return date;
+            }
         });
         $(function () {
             $('.date-picker').datepicker();
