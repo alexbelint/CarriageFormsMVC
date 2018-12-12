@@ -22,8 +22,8 @@
             @Html.DisplayFor(modelItem => item.TrafficClassificationName)
         </td>
         <td>
-            @Html.ActionLink("Правка", "Edit", new { id=item.TrafficClassificationID }) |
-            @Html.ActionLink("Удалить", "Delete", new { id=item.TrafficClassificationID })
+            @Html.ActionLink("Правка", "Edit", new { id=item.TrafficClassificationID }) @*|
+            @Html.ActionLink("Удалить", "Delete", new { id=item.TrafficClassificationID })*@
         </td>
     </tr>
 }

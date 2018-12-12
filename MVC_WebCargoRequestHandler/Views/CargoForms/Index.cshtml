@@ -2,7 +2,6 @@
 @model PagedList.IPagedList<MVC_WebCargoRequestHandler.Models.CargoForm>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-@*<link href="~/Content/Test.css" rel="stylesheet" type="text/css" />*@
 @{
     ViewBag.Title = "Carriage Forms";
 }
@@ -109,16 +108,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ResponseDate)
             </td>
-            @*<td>
-                <div class="btn-group-xs" role="rowgroup" aria-label="Basic example">
-                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="Отредактировать запись" onclick="location.href='@Url.Action("Edit", new { id = item.CargoFormID })'">  Правка </button>
-                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="Создать такую же запись" onclick="location.href='@Url.Action("Clone", new { id = item.CargoFormID })'">  Дублировать </button>
-                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="Подробности" onclick="location.href='@Url.Action("Details", new { id = item.CargoFormID })'">  Подробнее </button>
-                    <button type="button" class="btn btn-default" data-toggle="tooltip" title="Удалить запись" onclick="location.href='@Url.Action("Delete", new { id = item.CargoFormID })'">  Удалить </button>
-                </div>
-                @Html.ActionLink("Удалить", "Delete", new { id = item.CargoFormID }, new { @class = "glyphicon glyphicon-trash" })
-
-            </td>*@
             <td>
                 <div class="btn-group">
                     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -138,8 +127,8 @@
     }
 
 </table>
+<div>
+    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
-
-        @Html.PagedListPager(Model, page => Url.Action("Index",
-            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>

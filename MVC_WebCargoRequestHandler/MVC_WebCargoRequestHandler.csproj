@@ -230,10 +230,6 @@
     <Compile Include="Migrations\201809210701458_Custom.Designer.cs">
       <DependentUpon>201809210701458_Custom.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811261912547_student_from_pizdoboltsburg.cs" />
-    <Compile Include="Migrations\201811261912547_student_from_pizdoboltsburg.Designer.cs">
-      <DependentUpon>201811261912547_student_from_pizdoboltsburg.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CargoForm.cs" />
@@ -405,7 +401,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -493,9 +491,6 @@
     </Content>
     <EmbeddedResource Include="Migrations\201809210701458_Custom.resx">
       <DependentUpon>201809210701458_Custom.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811261912547_student_from_pizdoboltsburg.resx">
-      <DependentUpon>201811261912547_student_from_pizdoboltsburg.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

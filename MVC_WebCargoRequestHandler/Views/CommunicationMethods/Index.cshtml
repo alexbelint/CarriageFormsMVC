@@ -24,9 +24,9 @@
             @Html.DisplayFor(modelItem => item.CommunicationName)
         </td>
         <td>
-            @Html.ActionLink("Правка", "Edit", new { id=item.CommunicationID }) |
+            @Html.ActionLink("Правка", "Edit", new { id=item.CommunicationID }) @*|
             @Html.ActionLink("Удалить", "Delete", new { id=item.CommunicationID })
-        </td>
+        </td>*@
     </tr>
 }
 

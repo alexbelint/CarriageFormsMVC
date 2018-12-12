@@ -45,16 +45,6 @@ namespace MVC_WebCargoRequestHandler.Controllers
         {
             ViewBag.startdate = startdate;
             ViewBag.enddate = enddate;
-            //IQueryable<CargoForm> cargoforms = _db.CargoForms;
-            //if (startdate.HasValue)
-            //{
-            //    cargoforms = cargoforms.Where(x => x.ReceiptDate > startdate.Value);
-            //}
-            //if (enddate.HasValue)
-            //{
-            //    cargoforms = cargoforms.Where(x => x.ReceiptDate < enddate.Value);
-            //}
-
             var results = GetFilteredQueryable(filters);
             
             if (startdate != null)

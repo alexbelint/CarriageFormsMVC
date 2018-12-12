@@ -41,6 +41,7 @@ namespace MVC_WebCargoRequestHandler.Models
 
 
         [Display(Name = "Стоимость")]
+        //[DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
         public decimal? Cost { get; set; } //Стоимость
 
 

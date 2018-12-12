@@ -21,9 +21,9 @@
             @Html.DisplayFor(modelItem => item.DirectionName)
         </td>
         <td>
-            @Html.ActionLink("Правка", "Edit", new { id=item.DirectionID }) |
+            @Html.ActionLink("Правка", "Edit", new { id=item.DirectionID }) @*|
             @Html.ActionLink("Удалить", "Delete", new { id=item.DirectionID })
-        </td>
+        </td>*@
     </tr>
 }
 

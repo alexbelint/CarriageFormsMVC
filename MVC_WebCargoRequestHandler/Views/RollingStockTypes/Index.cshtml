@@ -21,9 +21,9 @@
             @Html.DisplayFor(modelItem => item.RollingStockName)
         </td>
         <td>
-            @Html.ActionLink("Правка", "Edit", new { id=item.RollingStockID }) |
+            @Html.ActionLink("Правка", "Edit", new { id=item.RollingStockID }) @*|
             @Html.ActionLink("Удалить", "Delete", new { id=item.RollingStockID })
-        </td>
+        </td>*@
     </tr>
 }
 

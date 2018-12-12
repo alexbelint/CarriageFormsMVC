@@ -326,7 +326,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         {
             if (ModelState.IsValid)
             {
-                //db.Entry(cargoForm).State = EntityState.Modified;
+                db.Entry(cargoForm).State = EntityState.Modified;
                 db.CargoForms.Add(cargoForm);
                 if (User.Identity.IsAuthenticated) //gather info about current user
                 {
