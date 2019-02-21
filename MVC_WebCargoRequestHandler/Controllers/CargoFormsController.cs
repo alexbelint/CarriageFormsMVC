@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MVC_WebCargoRequestHandler.Models;
+using MVC_WebCargoRequestHandler.Models.Excel;
 using PagedList;
 
 namespace MVC_WebCargoRequestHandler.Controllers
@@ -153,6 +154,17 @@ namespace MVC_WebCargoRequestHandler.Controllers
 
             return View(cargoForms.ToPagedList(pageNumber, pageSize));
 
+        }
+
+        public void Excel()
+        {
+            TransportationRequestsExcel excel = new TransportationRequestsExcel();
+            Response.ClearContent();
+            Response.BinaryWrite(excel.GenerateExcel());
+            Response.AddHeader("content-disposition", "attachment; filename=test.xlsx");
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.Flush();
+            Response.End();
         }
 
         // GET: CargoForms/Details/5
