@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -18,7 +21,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         [AllowAnonymous]
         // GET: CargoForms
-        public ActionResult Index(string sortOrder,string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var cargoForms = db.CargoForms.Include(c => c.CommunicationMethod)
                                           .Include(c => c.Direction)
@@ -26,7 +29,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
                                           .Include(c => c.RollingStockType)
                                           .Include(c => c.TrafficClassification)
                                           .Include(c => c.Currencies);
-    
+
             #region sorting
             ViewBag.CommunicationIDSortParm = String.IsNullOrEmpty(sortOrder) ? "CommunicationID" : "";
             ViewBag.CustomerSortParm = sortOrder == "Customer" ? "Customer_desc" : "Customer";
@@ -150,21 +153,16 @@ namespace MVC_WebCargoRequestHandler.Controllers
             }
             int pageSize = 12;
             int pageNumber = (page ?? 1);
-           
+
 
             return View(cargoForms.ToPagedList(pageNumber, pageSize));
 
         }
 
-        public void Excel()
+        public byte[] CreateExcelReport(CargoForm form)
         {
             TransportationRequestsExcel excel = new TransportationRequestsExcel();
-            Response.ClearContent();
-            Response.BinaryWrite(excel.GenerateExcel());
-            Response.AddHeader("content-disposition", "attachment; filename=test.xlsx");
-            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.Flush();
-            Response.End();
+            return excel.GenerateExcel(form);
         }
 
         // GET: CargoForms/Details/5
@@ -204,7 +202,6 @@ namespace MVC_WebCargoRequestHandler.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.CargoForms.Add(cargoForm);
                 if (User.Identity.IsAuthenticated) //gather info about user
                 {
                     string currentUserId = User.Identity.GetUserId();
@@ -213,7 +210,27 @@ namespace MVC_WebCargoRequestHandler.Controllers
                     //cargoForm.Author = author;
                 }
 
+                var inserted = db.CargoForms.Add(cargoForm);
                 db.SaveChanges();
+
+                var form = db.CargoForms.IncludeAll().Single(x => x.CargoFormID == inserted.CargoFormID);
+
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.belint.by");
+                mail.From = new MailAddress("your mail@gmail.com");
+                mail.To.Add("romanmail.by@gmail.com");
+                mail.Subject = "Test Mail - 1";
+                mail.Body = "mail with attachment";
+
+                System.Net.Mail.Attachment attachment;
+                attachment = new System.Net.Mail.Attachment(new MemoryStream(CreateExcelReport(form)), $"excel-report{form.CargoFormID}.xlsx");
+                mail.Attachments.Add(attachment);
+
+                SmtpServer.Port = 25;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("requestmail@belint.by", "2zGCUXZe");
+
+                SmtpServer.Send(mail);
+
                 return RedirectToAction("Index");
             }
 
@@ -261,7 +278,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
                 if (User.Identity.IsAuthenticated) //gather info about current user
                 {
                     string currentUserId = User.Identity.GetUserId();
-                    ApplicationUser applicationUser = db.Users.FirstOrDefault(x => x.Id == currentUserId); 
+                    ApplicationUser applicationUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
                     string currentUser = applicationUser.UserName;
                     cargoForm.СurrentUserId = currentUser;
                 }
@@ -348,7 +365,7 @@ namespace MVC_WebCargoRequestHandler.Controllers
 
                     cargoForm.СurrentUserId = currentUser;
                 }
-               
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -371,6 +388,25 @@ namespace MVC_WebCargoRequestHandler.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+    }
+
+    public static class QueryableExtensions
+    {
+        public static IQueryable<T> IncludeAll<T>(this DbSet<T> queryable) where T : class
+        {
+            var type = typeof(T);
+            var properties = type.GetProperties();
+            IQueryable<T> query = queryable;
+            foreach (var property in properties)
+            {
+                var isVirtual = property.GetGetMethod().IsVirtual;
+                if (isVirtual && properties.FirstOrDefault(c => c.Name == property.Name + "ID") != null)
+                {
+                    query = query.Include(property.Name);
+                }
+            }
+            return query;
         }
     }
 }

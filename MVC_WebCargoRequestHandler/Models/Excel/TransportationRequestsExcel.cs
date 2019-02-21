@@ -12,7 +12,7 @@ namespace MVC_WebCargoRequestHandler.Models.Excel
         int rowIndex = 1; //excelDoc current row number
         ExcelRange cell;
         Border border;
-        public byte[] GenerateExcel()
+        public byte[] GenerateExcel(CargoForm form)
         {
             using (var excelPackage = new ExcelPackage())
             {
@@ -188,7 +188,7 @@ namespace MVC_WebCargoRequestHandler.Models.Excel
                 border = cell.Style.Border;
                 border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
                 cell = sheet.Cells[rowIndex, 3];
-                cell.Value = "#"; //transporationMethod
+                cell.Value = form.TrafficClassification.TrafficClassificationName;
                 cell.Style.Font.Bold = true;
                 cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
